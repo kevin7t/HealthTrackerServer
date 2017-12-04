@@ -38,7 +38,7 @@ public class MainController {
     public ResponseEntity<User> add(@RequestBody User user ){
         User n = new User();
         n.setUserId(UUID.randomUUID().toString());
-        n.setName(user.getName());
+        n.setUserName(user.getUserName());
         n.setPassword(user.getPassword());
         userRepository.save(n);
         user.setUserId(n.getUserId());
@@ -55,11 +55,11 @@ public class MainController {
         }
     }
 
-//    @RequestMapping (value = "/{name}", method = RequestMethod.GET)
-//    public ResponseEntity getUserFromName (@PathVariable ("name") String name) {
+//    @RequestMapping (value = "/{userName}", method = RequestMethod.GET)
+//    public ResponseEntity getUserFromName (@PathVariable ("userName") String userName) {
 //        User user;
 //        try {
-//            user = userRepository.findByName(name);
+//            user = userRepository.findByName(userName);
 //            System.out.println(user.toString() +"USER ");
 //        } catch (NullPointerException n  ){
 //            return new ResponseEntity("User not found ", HttpStatus.NOT_FOUND);

@@ -10,7 +10,7 @@ public interface UserRepository extends CrudRepository<User,Long> {
 
     User findByUserId(@Param("userId") String userId);
 
-    User findByName(@Param("name") String name);
+    User findByUserName(@Param("userName") String name);
 
     @Transactional
     void deleteByUserId(@Param("userId") String userId);
