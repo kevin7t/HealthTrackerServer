@@ -1,12 +1,13 @@
 package com.kevin.HealthTrackerServer.Repository;
 
+import com.kevin.HealthTrackerServer.Datamodels.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kevin.HealthTrackerServer.Datamodels.User;
-
-public interface UserRepository extends CrudRepository<User,Long> {
+@Repository
+public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByUserId(@Param("userId") String userId);
 
