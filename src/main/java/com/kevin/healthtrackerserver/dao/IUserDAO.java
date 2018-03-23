@@ -1,0 +1,15 @@
+package com.kevin.healthtrackerserver.dao;
+
+import java.util.List;
+
+import com.kevin.healthtrackerserver.datamodels.User;
+
+public interface IUserDAO {
+    List<User> getAllUsers();
+    int createUser(User user);
+    User updateUser(User user);
+    User findById(int id);
+    void deleteById(int id);
+    Boolean userExists();
+
+}

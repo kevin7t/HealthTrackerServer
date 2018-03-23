@@ -1,0 +1,6 @@
+mysql> create database accountdb; -- Create the new database
+mysql> create user 'dbuser1'@'localhost' identified by 'password123'; -- Creates the user
+mysql> grant all .* to 'dbuser1'@'localhost'; -- Gives all the privileges to the new user on the newly created database
+
+
+curl 'localhost:8080/database/add?name=test&password=password'
