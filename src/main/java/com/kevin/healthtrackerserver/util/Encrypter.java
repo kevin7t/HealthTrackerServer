@@ -10,14 +10,14 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class Encrypter {
-    public static boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
+    public static boolean authenticate(String attemptedPassword, byte[] actualHash, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        byte[] encryptedAttemptedPassword = generateHash(attemptedPassword, salt);
         System.out.println("Attempted password " + attemptedPassword);
-        System.out.println("Encrypted password to string: " + String.format("%x", new BigInteger(getEncryptedPassword(attemptedPassword, salt))));
-        return Arrays.equals(encryptedPassword, encryptedAttemptedPassword);
+        System.out.println("Encrypted password to string: " + String.format("%x", new BigInteger(generateHash(attemptedPassword, salt))));
+        return Arrays.equals(actualHash, encryptedAttemptedPassword);
     }
 
-    public static byte[] getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static byte[] generateHash(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String algorithm = "PBKDF2WithHmacSHA1";
         int derivedKeyLength = 160;
         int iterations = 10000;

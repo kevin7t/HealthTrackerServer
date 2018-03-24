@@ -1,10 +1,15 @@
 package com.kevin.healthtrackerserver.dao;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.constraints.Null;
 
+import com.kevin.healthtrackerserver.util.Encrypter;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,25 +17,38 @@ import com.kevin.healthtrackerserver.datamodels.User;
 
 @Transactional
 @Repository
-public class UserDAO implements IUserDAO{
+public class UserDAO implements IUserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        String query = "FROM User";
+        return (List<User>) entityManager.createQuery(query).getResultList();
     }
 
     @Override
     public int createUser(User user) {
-        entityManager.persist(user);
-        entityManager.flush();
+        try {
+            byte[] salt = Encrypter.generateSalt();
+            user.setHash(Encrypter.generateHash(user.getPassword(), salt));
+            user.setSalt(salt);
+            entityManager.persist(user);
+            entityManager.flush();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+
         return user.getId();
     }
 
     @Override
     public User updateUser(User user) {
-        return null;
+        User u = findByUserName(user.getUserName());
+        u.setHash(user.getHash());
+        u.setSalt(user.getSalt());
+        entityManager.flush();
+        return u;
     }
 
     @Override
@@ -39,12 +57,16 @@ public class UserDAO implements IUserDAO{
     }
 
     @Override
+    public User findByUserName(String userName) {
+        String query = "SELECT u FROM User u WHERE u.userName = ?";
+        return (User) entityManager.createQuery(query)
+                .setParameter(0, userName)
+                .getResultList().get(0);
+    }
+
+    @Override
     public void deleteById(int id) {
         entityManager.remove(findById(id));
     }
 
-    @Override
-    public Boolean userExists() {
-        return null;
-    }
 }

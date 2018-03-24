@@ -1,12 +1,9 @@
 package com.kevin.healthtrackerserver.datamodels;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 @Entity
@@ -18,11 +15,8 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "userName", nullable = false)
+    @Column(name = "userName", nullable = false, unique = true)
     private String userName;
-
-    @Column(name = "password", nullable = false)
-    private String password;
 
     @Column(name = "salt", nullable = false)
     private byte[] salt;
@@ -30,5 +24,8 @@ public class User {
     @Column(name = "hash", nullable = false)
     private byte[] hash;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Transient
+    private String password;
 
 }
