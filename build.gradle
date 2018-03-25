@@ -4,6 +4,7 @@ mainClassName = "com.kevin.Application"
 buildscript {
     ext {
         springBootVersion = '2.0.0.RELEASE'
+        depManagementVersion = '1.0.4.RELEASE'
     }
     repositories {
         mavenLocal()
@@ -11,6 +12,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:${depManagementVersion}"
     }
 }
 
@@ -29,12 +31,6 @@ subprojects {
     }
     group = 'com.kevin'
     version = '0.0.1-SNAPSHOT'
-}
-
-project(":Server") {
-    dependencies {
-        compile project(":Datamodels")
-    }
 }
 
 

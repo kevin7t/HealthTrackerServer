@@ -1,3 +1,4 @@
+apply plugin: 'java'
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
@@ -6,5 +7,5 @@ dependencies {
     compileOnly('org.projectlombok:lombok')
     compile('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-
+    compile project(":Datamodels")
 }
