@@ -1,4 +1,3 @@
 rootProject.name = 'HealthTrackerServer'
-include 'Datamodels'
-include 'Server'
+include ':Datamodels',':Server'
 

@@ -1,6 +1,6 @@
 package com.kevin.server.dao;
 
-import com.kevin.datamodel.User;
+import com.kevin.datamodels.User;
 
 import java.util.List;
 

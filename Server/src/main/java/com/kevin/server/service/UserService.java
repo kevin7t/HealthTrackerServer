@@ -1,6 +1,6 @@
 package com.kevin.server.service;
 
-import com.kevin.datamodel.User;
+import com.kevin.datamodels.User;
 import com.kevin.server.dao.UserDAO;
 import com.kevin.server.util.Encrypter;
 import org.springframework.beans.factory.annotation.Autowired;

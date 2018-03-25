@@ -1,6 +1,6 @@
 package com.kevin.server.dao;
 
-import com.kevin.datamodel.User;
+import com.kevin.datamodels.User;
 import com.kevin.server.util.Encrypter;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

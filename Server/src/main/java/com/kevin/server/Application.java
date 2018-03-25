@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 
 @SpringBootApplication
-@EntityScan(basePackages = {"com.kevin.datamodel"})
-public class HealthtrackerserverApplication {
+@EntityScan(basePackages = {"com.kevin.datamodels"})
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(HealthtrackerserverApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

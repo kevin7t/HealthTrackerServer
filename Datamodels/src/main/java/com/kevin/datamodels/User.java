@@ -1,4 +1,4 @@
-package com.kevin.datamodel;
+package com.kevin.datamodels;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

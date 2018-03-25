@@ -1,8 +1,12 @@
+apply plugin: 'application'
+mainClassName = "com.kevin.Application"
+
 buildscript {
     ext {
         springBootVersion = '2.0.0.RELEASE'
     }
     repositories {
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
@@ -10,7 +14,7 @@ buildscript {
     }
 }
 
-allprojects {
+subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
@@ -26,5 +30,11 @@ allprojects {
     group = 'com.kevin'
     version = '0.0.1-SNAPSHOT'
 }
-subprojects {
+
+project(":Server") {
+    dependencies {
+        compile project(":Datamodels")
+    }
 }
+
+
