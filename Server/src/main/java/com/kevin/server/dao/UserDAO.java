@@ -1,17 +1,17 @@
-package dao;
+package com.kevin.server.dao;
 
+import com.kevin.datamodel.User;
+import com.kevin.server.util.Encrypter;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import util.Encrypter;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kevin.server.datamodels.User;
 
 @Transactional
 @Repository

@@ -1,4 +1,4 @@
-
+package com.kevin.datamodel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "User")
+@Table(name = "com.kevin.datamodel.User")
 @Data
 public class User {
     @Id

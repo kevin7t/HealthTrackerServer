@@ -1,1 +1,12 @@
 Spring boot application
+
+Step 1) Create an instance of MySql database
+
+mysql> create database accountdb; -- Create the new database
+mysql> create user 'dbuser1'@'localhost' identified by 'password123'; -- Creates the user
+mysql> grant all .* to 'dbuser1'@'localhost'; -- Gives all the privileges to the new user on the newly created database
+
+
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+If this happens, you must start an instance of MySql server

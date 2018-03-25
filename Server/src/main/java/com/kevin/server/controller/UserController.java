@@ -1,14 +1,16 @@
-package controller;
+package com.kevin.server.controller;
 
-import service.UserService;
+import com.kevin.datamodel.User;
+import com.kevin.server.service.UserService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @ComponentScan
@@ -45,7 +47,7 @@ public class UserController {
             User user = userService.findById(id);
             return new ResponseEntity(user, HttpStatus.OK);
         } catch (NullPointerException n) {
-            return new ResponseEntity("User not found ", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("com.kevin.datamodel.User not found ", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -54,7 +56,7 @@ public class UserController {
         try {
             userService.deleteById(id);
         } catch (Exception e) {
-            return new ResponseEntity("User not found ", HttpStatus.NO_CONTENT);
+            return new ResponseEntity("com.kevin.datamodel.User not found ", HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity("Deleted", HttpStatus.OK);
     }

@@ -1,4 +1,6 @@
-package service;
+package com.kevin.server.service;
+
+import com.kevin.datamodel.User;
 
 import java.util.List;
 

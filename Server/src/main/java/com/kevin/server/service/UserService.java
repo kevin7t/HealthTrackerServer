@@ -1,13 +1,14 @@
-package service;
+package com.kevin.server.service;
+
+import com.kevin.datamodel.User;
+import com.kevin.server.dao.UserDAO;
+import com.kevin.server.util.Encrypter;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
-import util.Encrypter;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import dao.UserDAO;
 import org.springframework.stereotype.Service;
 
 @Service

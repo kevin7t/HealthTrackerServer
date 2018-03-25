@@ -1,8 +1,9 @@
-package dao;
+package com.kevin.server.dao;
+
+import com.kevin.datamodel.User;
 
 import java.util.List;
 
-import com.kevin.server.datamodels.User;
 
 public interface IUserDAO {
     List<User> getAllUsers();
