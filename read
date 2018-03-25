@@ -1,7 +1,8 @@
 Step 1) Create an instance of MySql database
+sudo apt-get install mysql-server
 
 mysql> create database accountdb; -- Create the new database
-mysql> create user 'dbuser1'@'localhost' identified by 'password123'; -- Creates the user
+mysql> create user 'dbuser'@'localhost' identified by 'password'; -- Creates the user
 mysql> grant all .* to 'dbuser1'@'localhost'; -- Gives all the privileges to the new user on the newly created database
 
 

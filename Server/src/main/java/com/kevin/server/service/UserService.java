@@ -3,13 +3,12 @@ package com.kevin.server.service;
 import com.kevin.datamodel.User;
 import com.kevin.server.dao.UserDAO;
 import com.kevin.server.util.Encrypter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements IUserService {
