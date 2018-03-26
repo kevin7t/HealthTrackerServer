@@ -15,12 +15,10 @@ import com.kevin.healthtracker.datamodels.User;
 public class HealthTrackerClient {
     private String url;
     private RestTemplate restTemplate;
-    private ObjectMapper objectMapper;
 
     public HealthTrackerClient(RestTemplate restTemplate, String host, int port) {
         this.url = String.format("http://%s:%d/healthtracker", host, port);
         this.restTemplate = restTemplate;
-        this.objectMapper = new ObjectMapper();
     }
 
     public Integer registerUser(User user) {
@@ -45,10 +43,10 @@ public class HealthTrackerClient {
         }).getBody();
     }
 
-    private RequestEntity<String> createRequestEntity(HttpMethod method, String endpoint, User user) throws JsonProcessingException {
+    private RequestEntity<User> createRequestEntity(HttpMethod method, String endpoint, User user) throws JsonProcessingException {
         return RequestEntity.method(method, URI.create(url + endpoint))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body(objectMapper.writeValueAsString(user));
+                .body(user);
     }
 }

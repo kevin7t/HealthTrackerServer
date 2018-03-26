@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+//TODO may cause issues deserializing null values
 public class User {
 
     @Id
