@@ -4,8 +4,11 @@ Step 1) Create an instance of MySql database
 
 sudo apt-get install mysql-server
 
+
 sudo service mysql stop
 sudo service mysql start
+
+sudo mysql
 
 mysql> create database accountdb; -- Create the new database
 mysql> create user 'dbuser'@'localhost' identified by 'password'; -- Creates the user

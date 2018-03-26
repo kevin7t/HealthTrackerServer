@@ -1,20 +1,20 @@
 package com.kevin.healthtracker.server.dao;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.server.util.Encrypter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.server.util.Encrypter;
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @Transactional
 @Repository
+@Slf4j
 public class UserDAO implements IUserDAO {
     @PersistenceContext
     private EntityManager entityManager;
@@ -36,6 +36,7 @@ public class UserDAO implements IUserDAO {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
+        log.info("Created user with name:" + user.getUserName());
         return user.getId();
     }
 
@@ -45,6 +46,7 @@ public class UserDAO implements IUserDAO {
         u.setHash(user.getHash());
         u.setSalt(user.getSalt());
         entityManager.flush();
+        log.info("Updated user %d password", user.getId());
         return u;
     }
 
@@ -64,6 +66,7 @@ public class UserDAO implements IUserDAO {
     @Override
     public void deleteById(int id) {
         entityManager.remove(findById(id));
+        log.info("Deleted user with id:" + id);
     }
 
 }

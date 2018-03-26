@@ -1,16 +1,16 @@
 package com.kevin.healthtracker.client;
 
-import java.net.URI;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kevin.healthtracker.datamodels.User;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kevin.healthtracker.datamodels.User;
+import java.net.URI;
+import java.util.List;
 
 public class HealthTrackerClient {
     private String url;
@@ -21,26 +21,40 @@ public class HealthTrackerClient {
         this.restTemplate = restTemplate;
     }
 
-    public Integer registerUser(User user) {
-        RequestEntity requestEntity = null;
-        try {
-            requestEntity = createRequestEntity(HttpMethod.POST, "/users/register", user);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public Integer registerUser(User user) throws JsonProcessingException {
+        RequestEntity requestEntity = createRequestEntity(HttpMethod.POST, "/users/register", user);
         return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<Integer>() {
         }).getBody();
     }
 
-    public Boolean loginUser(User user)  {
-        RequestEntity requestEntity = null;
-        try {
-            requestEntity = createRequestEntity(HttpMethod.POST, "/users/login", user);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public Boolean loginUser(User user) throws JsonProcessingException {
+        RequestEntity requestEntity = createRequestEntity(HttpMethod.POST, "/users/login", user);
         return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<Boolean>() {
         }).getBody();
+    }
+
+    public User changePassword(User user) throws JsonProcessingException {
+        RequestEntity requestEntity = createRequestEntity(HttpMethod.PUT, "/users/changePassword", user);
+        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<User>() {
+        }).getBody();
+    }
+
+    public User getUser(int id) throws JsonProcessingException {
+        RequestEntity requestEntity = createRequestEntity(HttpMethod.GET, "/users/" + id, null);
+        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<User>() {
+        }).getBody();
+    }
+
+    public List<User> getAllUsers() throws JsonProcessingException {
+        RequestEntity requestEntity = createRequestEntity(HttpMethod.GET, "/users", null);
+        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<List<User>>() {
+        }).getBody();
+    }
+
+    public ResponseEntity deleteUser(int id) throws JsonProcessingException {
+        RequestEntity requestEntity = createRequestEntity(HttpMethod.DELETE, "/users/" + id, null);
+        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<ResponseEntity>() {
+        });
     }
 
     private RequestEntity<User> createRequestEntity(HttpMethod method, String endpoint, User user) throws JsonProcessingException {

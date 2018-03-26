@@ -1,8 +1,8 @@
 package com.kevin.healthtracker.server.dao;
 
-import java.util.List;
-
 import com.kevin.healthtracker.datamodels.User;
+
+import java.util.List;
 
 
 public interface IUserDAO {

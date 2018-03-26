@@ -1,9 +1,9 @@
 package com.kevin.healthtracker.server.service;
 
 
-import java.util.List;
-
 import com.kevin.healthtracker.datamodels.User;
+
+import java.util.List;
 
 public interface IUserService {
 
