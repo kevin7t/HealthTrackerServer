@@ -1,15 +1,15 @@
 package com.kevin.healthtracker.server.service;
 
 
-import com.kevin.healthtracker.datamodels.User;
-
 import java.util.List;
+
+import com.kevin.healthtracker.datamodels.User;
 
 public interface IUserService {
 
     List<User> getAllUsers();
 
-    int createUser(User user);
+    User createUser(User user);
 
     User updateUser(User user);
 

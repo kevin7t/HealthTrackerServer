@@ -1,4 +1,6 @@
 dependencies {
     compile project(":Datamodels")
     compile "org.springframework:spring-web:5.0.4.RELEASE"
+
+    testCompile "junit:junit:${junitVersion}"
 }

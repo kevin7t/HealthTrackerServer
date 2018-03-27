@@ -1,7 +1,8 @@
 package com.kevin.healthtracker.server;
 
-import com.kevin.healthtracker.server.util.Encrypter;
 import org.junit.Test;
+
+import com.kevin.healthtracker.server.util.Encrypter;
 
 
 public class EncrypterTest {

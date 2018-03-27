@@ -1,15 +1,22 @@
 package com.kevin.healthtracker.server.controller;
 
-import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.server.service.UserService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.List;
+import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.server.service.UserService;
 
 @Controller
 @ComponentScan
@@ -19,44 +26,35 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<User> add(@RequestBody User user) {
         return new ResponseEntity(userService.createUser(user), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity authenticateUser(@RequestBody User user) {
-        return new ResponseEntity(userService.authenticateUser(user), HttpStatus.OK);
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Boolean> authenticateUser(@RequestBody User user) {
+        return new ResponseEntity(userService.authenticateUser(user), HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
+    @RequestMapping(value = "/changepassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<User> changePassword(@RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+        return new ResponseEntity(userService.updateUser(user), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     private ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity getUser(@PathVariable("id") int id) {
-        try {
-            User user = userService.findById(id);
-            return new ResponseEntity(user, HttpStatus.OK);
-        } catch (NullPointerException n) {
-            return new ResponseEntity("User not found ", HttpStatus.NOT_FOUND);
-        }
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
+        return new ResponseEntity(userService.findById(id), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable("id") int id) {
-        try {
-            userService.deleteById(id);
-        } catch (Exception e) {
-            return new ResponseEntity("User not found ", HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity("Deleted", HttpStatus.NO_CONTENT);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") int id) {
+        userService.deleteById(id);
     }
 }

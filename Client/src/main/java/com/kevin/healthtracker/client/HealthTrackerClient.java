@@ -1,7 +1,8 @@
 package com.kevin.healthtracker.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kevin.healthtracker.datamodels.User;
+import java.net.URI;
+import java.util.List;
+
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -9,8 +10,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kevin.healthtracker.datamodels.User;
 
 public class HealthTrackerClient {
     private String url;
@@ -21,9 +22,9 @@ public class HealthTrackerClient {
         this.restTemplate = restTemplate;
     }
 
-    public Integer registerUser(User user) throws JsonProcessingException {
+    public User registerUser(User user) throws JsonProcessingException {
         RequestEntity requestEntity = createRequestEntity(HttpMethod.POST, "/users/register", user);
-        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<Integer>() {
+        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<User>() {
         }).getBody();
     }
 
@@ -34,7 +35,7 @@ public class HealthTrackerClient {
     }
 
     public User changePassword(User user) throws JsonProcessingException {
-        RequestEntity requestEntity = createRequestEntity(HttpMethod.PUT, "/users/changePassword", user);
+        RequestEntity requestEntity = createRequestEntity(HttpMethod.PUT, "/users/changepassword", user);
         return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<User>() {
         }).getBody();
     }
@@ -51,9 +52,9 @@ public class HealthTrackerClient {
         }).getBody();
     }
 
-    public ResponseEntity deleteUser(int id) throws JsonProcessingException {
+    public ResponseEntity<Void> deleteUser(int id) throws JsonProcessingException {
         RequestEntity requestEntity = createRequestEntity(HttpMethod.DELETE, "/users/" + id, null);
-        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<ResponseEntity>() {
+        return restTemplate.exchange(requestEntity, new ParameterizedTypeReference<Void>() {
         });
     }
 
