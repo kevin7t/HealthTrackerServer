@@ -1,8 +1,6 @@
 apply plugin: 'org.springframework.boot'
-
-springBoot {
-    mainClassName = 'com.kevin.server.Application'
-}
+apply plugin: 'application'
+mainClassName = 'com.kevin.healthtracker.server.Application'
 
 dependencies {
     compile project(":Datamodels")
