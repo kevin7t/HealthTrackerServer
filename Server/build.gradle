@@ -11,3 +11,6 @@ dependencies {
     testCompile "org.mockito:mockito-core:2.+"
     testCompile "junit:junit:${junitVersion}"
 }
+jar{
+    enabled = true
+}
