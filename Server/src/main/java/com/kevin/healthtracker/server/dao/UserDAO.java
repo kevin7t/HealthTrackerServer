@@ -44,7 +44,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User updateUser(User user) {
-        User updatedUser = findByUserName(user.getUserName());
+        User updatedUser = getByUserName(user.getUserName());
         try {
             byte[] salt = Encrypter.generateSalt();
             updatedUser.setHash(Encrypter.generateHash(user.getPassword(), salt));
@@ -58,12 +58,12 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User findById(int id) {
+    public User getById(int id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
-    public User findByUserName(String userName) {
+    public User getByUserName(String userName) {
         String query = "SELECT u FROM User u WHERE u.userName = ?";
         return (User) entityManager.createQuery(query)
                 .setParameter(0, userName)
@@ -72,7 +72,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void deleteById(int id) {
-        entityManager.remove(findById(id));
+        entityManager.remove(getById(id));
         log.info("Deleted user with id:" + id);
     }
 

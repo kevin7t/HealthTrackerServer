@@ -31,10 +31,10 @@ public class Status {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "like_count", nullable = false)
+    @Column(name = "like_count", nullable = true)
     private int likeCount;
 
-    @Column(name = "reply_count", nullable = false)
+    @Column(name = "reply_count", nullable = true)
     private int replyCount;
 
 }

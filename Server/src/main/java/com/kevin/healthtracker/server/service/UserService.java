@@ -21,7 +21,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userDAO.getAllUsers().stream().map(user -> userWithoutCredentials(user)).collect(toList());
+        return userDAO.getAllUsers().stream().map(this::userWithoutCredentials).collect(toList());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UserService implements IUserService {
 
     @Override
     public User findById(int id) {
-        return userWithoutCredentials(userDAO.findById(id));
+        return userWithoutCredentials(userDAO.getById(id));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class UserService implements IUserService {
     @Override
     public Boolean authenticateUser(User user) {
         try {
-            User userFromDb = userDAO.findByUserName(user.getUserName());
+            User userFromDb = userDAO.getByUserName(user.getUserName());
             return Encrypter.authenticate(user.getPassword(), userFromDb.getHash(), userFromDb.getSalt());
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             e.printStackTrace();

@@ -23,3 +23,20 @@ If this happens, you must start an instance of MySql server
 Or run docker compose for mysql in docker container
 
 when using jpa queries, always use the entity name in lower case not the table name.
+
+
+http://localhost:8080/healthtracker/users/register
+{
+    "userName":"2d4704e8-9d11-4de7-93ba-25245aaaa57bad913",
+    "password":"password1"
+}
+
+http://localhost:8080/healthtracker/status/create
+{
+	"user":{
+		"id":1,
+		"userName":"2d4704e8-9d11-4de7-93ba-25245aaaa57bad913"
+	},
+	"type":"WALK",
+	"content":"test"
+}

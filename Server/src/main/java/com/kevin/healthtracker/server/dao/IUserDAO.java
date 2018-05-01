@@ -12,9 +12,9 @@ public interface IUserDAO {
 
     User updateUser(User user);
 
-    User findById(int id);
+    User getById(int id);
 
-    User findByUserName(String userName);
+    User getByUserName(String userName);
 
     void deleteById(int id);
 
