@@ -26,7 +26,7 @@ import com.kevin.healthtracker.server.service.UserService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
-public class UserControllerIT {
+public class UserControllerTest {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
     @Autowired

@@ -21,3 +21,5 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 If this happens, you must start an instance of MySql server
 
 Or run docker compose for mysql in docker container
+
+when using jpa queries, always use the entity name in lower case not the table name.
