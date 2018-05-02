@@ -2,6 +2,7 @@ package com.kevin.healthtracker.server.dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LikeDaoImpl implements LikeDao {
 
-    @Autowired
+    @PersistenceContext
     EntityManager entityManager;
 
     @Override
