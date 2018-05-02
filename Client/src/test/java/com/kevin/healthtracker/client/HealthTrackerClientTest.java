@@ -1,13 +1,8 @@
 package com.kevin.healthtracker.client;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.junit.Test;
-import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kevin.healthtracker.datamodels.User;
 
 public class HealthTrackerClientTest {
 

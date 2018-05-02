@@ -5,18 +5,21 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.server.dao.interfaces.UserDAO;
+import com.kevin.healthtracker.server.exception.DuplicateUserException;
 import com.kevin.healthtracker.server.util.Encrypter;
 import lombok.extern.slf4j.Slf4j;
 
 @Transactional
 @Repository
 @Slf4j
-public class UserDAO implements IUserDAO {
+public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -37,6 +40,8 @@ public class UserDAO implements IUserDAO {
             entityManager.flush();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
+        } catch (PersistenceException e) {
+            throw new DuplicateUserException(user.getUserName());
         }
         log.info("Created user with name:" + user.getUserName());
         return user;
@@ -59,7 +64,11 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getById(int id) {
-        return entityManager.find(User.class, id);
+        String query = "SELECT u FROM User u WHERE u.id = ?";
+        return (User) entityManager.createQuery(query)
+                .setParameter(0, id)
+                .getResultList().get(0);
+
     }
 
     @Override

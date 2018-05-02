@@ -10,14 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.server.dao.UserDAO;
+import com.kevin.healthtracker.server.dao.UserDAOImpl;
+import com.kevin.healthtracker.server.service.interfaces.UserService;
 import com.kevin.healthtracker.server.util.Encrypter;
 
 @Service
-public class UserService implements IUserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDAO userDAO;
+    UserDAOImpl userDAO;
 
     @Override
     public List<User> getAllUsers() {

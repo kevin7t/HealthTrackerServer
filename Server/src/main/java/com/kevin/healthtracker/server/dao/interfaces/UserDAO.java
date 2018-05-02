@@ -1,21 +1,20 @@
-package com.kevin.healthtracker.server.service;
-
+package com.kevin.healthtracker.server.dao.interfaces;
 
 import java.util.List;
 
 import com.kevin.healthtracker.datamodels.User;
 
-public interface IUserService {
 
+public interface UserDAO {
     List<User> getAllUsers();
 
     User createUser(User user);
 
     User updateUser(User user);
 
-    User findById(int id);
+    User getById(int id);
 
-    Boolean authenticateUser(User user);
+    User getByUserName(String userName);
 
     void deleteById(int id);
 

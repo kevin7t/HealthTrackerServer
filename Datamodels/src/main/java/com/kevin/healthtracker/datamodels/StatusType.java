@@ -1,6 +1,6 @@
 package com.kevin.healthtracker.datamodels;
 
-public enum StatusType{
+public enum StatusType {
     WALK,
     RUNN,
     SPRINT,

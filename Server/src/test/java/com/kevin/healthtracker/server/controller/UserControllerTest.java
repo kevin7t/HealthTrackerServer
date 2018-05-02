@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.server.service.UserService;
+import com.kevin.healthtracker.server.service.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
@@ -32,7 +32,7 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
     public void add() throws Exception {
