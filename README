@@ -40,3 +40,5 @@ http://localhost:8080/healthtracker/status/create
 	"type":"WALK",
 	"content":"test"
 }
+
+To build this run bootJar task and get the jar from Server/build/libs/Server.jar

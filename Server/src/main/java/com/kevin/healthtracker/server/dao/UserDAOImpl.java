@@ -64,10 +64,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getById(int id) {
-        String query = "SELECT u FROM User u WHERE u.id = ?";
-        return (User) entityManager.createQuery(query)
-                .setParameter(0, id)
-                .getResultList().get(0);
+        return entityManager.find(User.class,id);
+        //Todo this causes null pointer if you delete the first one
 
     }
 
