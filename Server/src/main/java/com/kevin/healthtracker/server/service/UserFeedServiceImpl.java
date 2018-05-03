@@ -14,7 +14,7 @@ import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.LikeDTO;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
-import com.kevin.healthtracker.server.dao.LikeDaoImpl;
+import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.service.interfaces.UserFeedService;
@@ -29,7 +29,7 @@ public class UserFeedServiceImpl implements UserFeedService {
     UserDAOImpl userDAO;
 
     @Autowired
-    LikeDaoImpl likeDao;
+    LikeDAOImpl likeDao;
 
 
     @Override

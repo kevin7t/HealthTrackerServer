@@ -5,20 +5,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Status;
-import com.kevin.healthtracker.server.dao.interfaces.LikeDao;
+import com.kevin.healthtracker.server.dao.interfaces.LikeDAO;
 import com.kevin.healthtracker.server.exception.DuplicateLikeException;
 import lombok.extern.slf4j.Slf4j;
 
 @Transactional
 @Repository
 @Slf4j
-public class LikeDaoImpl implements LikeDao {
+public class LikeDAOImpl implements LikeDAO {
 
     @PersistenceContext
     EntityManager entityManager;

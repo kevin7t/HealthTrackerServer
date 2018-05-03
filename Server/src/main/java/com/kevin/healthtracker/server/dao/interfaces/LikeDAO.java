@@ -5,7 +5,7 @@ import java.util.List;
 import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Status;
 
-public interface LikeDao {
+public interface LikeDAO {
     Like addLike(Like like);
 
     void removeLike(Like like);

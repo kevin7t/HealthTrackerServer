@@ -32,7 +32,6 @@ public class Reply {
     @ManyToOne(fetch = FetchType.LAZY)
     private Status status;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
