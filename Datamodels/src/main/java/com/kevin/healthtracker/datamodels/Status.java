@@ -25,7 +25,7 @@ public class Status {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Column(name = "created_at", nullable = false)
