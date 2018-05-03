@@ -15,7 +15,12 @@ mysql> create user 'dbuser'@'localhost' identified by 'password'; -- Creates the
 mysql> grant all PRIVILEGES ON accountdb.* to 'dbuser'@'localhost';
  -- Gives all the privileges to the new user on the newly created database
 
+USING DOCKER COMPOSE - FIRST DOCKER EXEC INTO CONTAINER THAT HAS FIXED VOLUME 
+create database accountdb; -- Create the new database
+create user 'dbuser'@'%' identified by 'password'; -- Creates the user
+grant all PRIVILEGES ON accountdb.* to 'dbuser'@'%';
 
+THEN RESTART ENTIRE SERVICEN AND IT SHOULD CONNECT ( SHOULD DO THIS AS SQL SCRIPT IN DOCKER-COMPOSE)
 
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
 If this happens, you must start an instance of MySql server
@@ -40,5 +45,7 @@ http://localhost:8080/healthtracker/status/create
 	"type":"WALK",
 	"content":"test"
 }
+
+
 
 To build this run bootJar task and get the jar from Server/build/libs/Server.jar
