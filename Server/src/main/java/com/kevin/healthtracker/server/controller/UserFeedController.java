@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kevin.healthtracker.datamodels.Status;
@@ -26,9 +27,10 @@ public class UserFeedController {
         return new ResponseEntity(userFeedService.createStatus(status), HttpStatus.CREATED);
     }
 
+    //Needs ?page=pageNumber in url
     @RequestMapping(value = "/status/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getStatus(@PathVariable("userId") int userId) {
-        return new ResponseEntity(userFeedService.getStatusesByUserId(userId), HttpStatus.OK);
+    public ResponseEntity getStatus(@PathVariable("userId") int userId, @RequestParam("page") int pageNumber) {
+        return new ResponseEntity(userFeedService.getStatusesByUserId(userId, pageNumber), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/status/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

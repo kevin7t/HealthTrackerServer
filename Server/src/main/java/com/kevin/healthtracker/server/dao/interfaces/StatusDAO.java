@@ -11,7 +11,7 @@ public interface StatusDAO {
 
     Status getById(int id);
 
-    List getStatusesByUser(User user);
+    List getStatusesByUser(User user, int pageNumber);
 
     void deleteById(int id);
 

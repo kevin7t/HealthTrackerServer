@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Slf4j
 public class StatusDAOImpl implements StatusDAO {
+    private int pageSize = 20;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -33,9 +34,13 @@ public class StatusDAOImpl implements StatusDAO {
     }
 
     @Override
-    public List<Status> getStatusesByUser(User user) {
+    public List<Status> getStatusesByUser(User user, int pageNumber) {
         String query = "SELECT s FROM Status s WHERE s.user = ?";
-        return entityManager.createQuery(query).setParameter(0, user).getResultList();
+        return entityManager.createQuery(query)
+                .setParameter(0, user)
+                .setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
     @Override

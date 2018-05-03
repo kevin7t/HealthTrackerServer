@@ -14,7 +14,7 @@ public interface UserFeedService {
 
     Status updateStatus(Status status);
 
-    List<StatusDTO> getStatusesByUserId(int userId);
+    List<StatusDTO> getStatusesByUserId(int userId, int pageNumber);
 
     List<Reply> getRepliesFromStatus(int id);
 

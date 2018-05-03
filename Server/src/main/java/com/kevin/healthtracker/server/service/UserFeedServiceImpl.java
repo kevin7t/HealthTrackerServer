@@ -44,9 +44,10 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public List<StatusDTO> getStatusesByUserId(int userId) {
+    public List<StatusDTO> getStatusesByUserId(int userId, int pageNumber) {
         List<StatusDTO> statusList = new ArrayList<>();
-        statusDAO.getStatusesByUser(userDAO.getById(userId)).forEach(status -> statusList.add(new StatusDTO(status)));
+        statusDAO.getStatusesByUser(userDAO.getById(userId), pageNumber)
+                .forEach(status -> statusList.add(new StatusDTO(status)));
         return statusList;
     }
 
