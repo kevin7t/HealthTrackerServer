@@ -46,9 +46,9 @@ public class UserFeedController {
         userFeedService.deleteStatusById(id);
     }
 
-    @RequestMapping(value = "/status/like/{statusId}/{userId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void addLike(@PathVariable("statusId") int statusId, @PathVariable("userId") int userId) {
-        userFeedService.addLikeToStatus(statusId, userId);
+    @RequestMapping(value = "/status/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void addLike(@RequestBody LikeDTO likeDTO) {
+        userFeedService.addLikeToStatus(likeDTO.toEntity());
     }
 
     @RequestMapping(value = "/status/like/{statusId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -62,4 +62,12 @@ public class UserFeedController {
     public void removeLike(@PathVariable("statusId") int statusId, @PathVariable("userId") int userId) {
         userFeedService.removeLikeFromStatus(statusId, userId);
     }
+
+//    @RequestMapping(value = "/status/reply/{statusId}/{userId}" , method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public ResponseEntity createReply(){
+//    }
+//
+//    public void deleteReply(){
+//
+//    }
 }

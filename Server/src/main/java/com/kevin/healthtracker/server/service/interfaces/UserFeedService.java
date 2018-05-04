@@ -19,7 +19,7 @@ public interface UserFeedService {
 
     List<Like> getLikesFromStatus(int id);
 
-    void addLikeToStatus(int statusId, int userId);
+    void addLikeToStatus(Like like);
 
     Reply addReplyToStatus(int statusId, int userId, String content);
 

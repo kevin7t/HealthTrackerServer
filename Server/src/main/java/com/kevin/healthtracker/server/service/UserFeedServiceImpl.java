@@ -32,6 +32,7 @@ public class UserFeedServiceImpl implements UserFeedService {
     @Override
     public Status createStatus(Status status) {
         status.setCreatedAt(currentTime());
+        //Does not need to get entire user back
         return statusDAO.createStatus(status);
     }
 
@@ -57,11 +58,11 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public void addLikeToStatus(int statusId, int userId) {
-        Like like = new Like();
+    public void addLikeToStatus(Like like) {
         like.setCreatedAt(currentTime());
-        like.setStatus(getStatusById(statusId));
-        like.setUser(getUserById(userId));
+        //Get whole object because status also has a user
+        like.setStatus(getStatusById(like.getStatus().getId()));
+        like.setUser(getUserById(like.getUser().getId()));
         likeDao.addLike(like);
     }
 
