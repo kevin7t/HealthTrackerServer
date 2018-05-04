@@ -5,9 +5,12 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.StatusType;
+import com.kevin.healthtracker.datamodels.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StatusDTO {
     private Integer id;
@@ -27,4 +30,19 @@ public class StatusDTO {
         likeCount = status.getLikeCount();
         replyCount = status.getReplyCount();
     }
+
+    public Status toEntity() {
+        Status status = new Status();
+        User user = new User();
+        user.setId(this.getUserId());
+        status.setId(this.getId());
+        status.setContent(this.getContent());
+        status.setCreatedAt(this.getCreatedAt());
+        status.setType(this.getType());
+        status.setUser(user);
+        status.setLikeCount(this.getLikeCount());
+        status.setReplyCount(this.getReplyCount());
+        return status;
+    }
+
 }

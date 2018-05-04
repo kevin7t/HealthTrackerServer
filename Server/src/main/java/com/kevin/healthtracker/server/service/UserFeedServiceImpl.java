@@ -1,7 +1,6 @@
 package com.kevin.healthtracker.server.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -12,8 +11,6 @@ import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Reply;
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.datamodels.dto.LikeDTO;
-import com.kevin.healthtracker.datamodels.dto.StatusDTO;
 import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
@@ -44,11 +41,8 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public List<StatusDTO> getStatusesByUserId(int userId, int pageNumber) {
-        List<StatusDTO> statusList = new ArrayList<>();
-        statusDAO.getStatusesByUser(userDAO.getById(userId), pageNumber)
-                .forEach(status -> statusList.add(new StatusDTO(status)));
-        return statusList;
+    public List<Status> getStatusesByUserId(int userId, int pageNumber) {
+        return statusDAO.getStatusesByUser(userDAO.getById(userId), pageNumber);
     }
 
     @Override
@@ -72,10 +66,18 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public List<LikeDTO> getLikesFromStatus(int id) {
-        List<LikeDTO> likesList = new ArrayList<>();
-        likeDao.getLikesFromStatus(getStatusById(id)).forEach(like -> likesList.add(new LikeDTO(like)));
-        return likesList;
+    public Reply addReplyToStatus(int statusId, int userId, String content) {
+        return null;
+    }
+
+    @Override
+    public void removeReplyFromStatus(int statusId, int userId, int replyId) {
+
+    }
+
+    @Override
+    public List<Like> getLikesFromStatus(int id) {
+        return likeDao.getLikesFromStatus(getStatusById(id));
     }
 
     @Override
