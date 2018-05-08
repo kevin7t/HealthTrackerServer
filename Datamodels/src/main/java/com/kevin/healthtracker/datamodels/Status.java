@@ -23,7 +23,7 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private int Id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

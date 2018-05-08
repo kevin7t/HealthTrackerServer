@@ -21,7 +21,7 @@ public interface UserFeedService {
 
     void addLikeToStatus(Like like);
 
-    Reply addReplyToStatus(int statusId, int userId, String content);
+    Reply addReplyToStatus(Reply reply);
 
     void removeReplyFromStatus(int statusId, int userId, int replyId);
 

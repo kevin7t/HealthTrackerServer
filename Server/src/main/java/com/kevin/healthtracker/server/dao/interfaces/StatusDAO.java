@@ -9,6 +9,8 @@ import com.kevin.healthtracker.datamodels.User;
 public interface StatusDAO {
     Status createStatus(Status status);
 
+    Status updateStatus(Status status);
+
     Status getById(int id);
 
     List getStatusesByUser(User user, int pageNumber);

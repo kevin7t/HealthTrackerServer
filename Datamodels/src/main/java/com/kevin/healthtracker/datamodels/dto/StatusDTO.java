@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StatusDTO {
-    private Integer id;
-    private Integer userId;
+    private int id;
+    private int userId;
     private Date createdAt;
     private StatusType type;
     private String content;

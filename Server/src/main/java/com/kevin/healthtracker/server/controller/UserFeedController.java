@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kevin.healthtracker.datamodels.dto.LikeDTO;
+import com.kevin.healthtracker.datamodels.dto.ReplyDTO;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
 import com.kevin.healthtracker.server.service.UserFeedServiceImpl;
 
@@ -63,11 +64,15 @@ public class UserFeedController {
         userFeedService.removeLikeFromStatus(statusId, userId);
     }
 
-//    @RequestMapping(value = "/status/reply/{statusId}/{userId}" , method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    public ResponseEntity createReply(){
-//    }
-//
-//    public void deleteReply(){
-//
-//    }
+    @RequestMapping(value = "/status/reply/{statusId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getReplies(@PathVariable("statusId") int id) {
+        List<ReplyDTO> replyList = new ArrayList<>();
+        userFeedService.getRepliesFromStatus(id).forEach(reply -> replyList.add(new ReplyDTO(reply)));
+        return new ResponseEntity(replyList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/status/reply/{statusId}/{userId}/{replyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void deleteReply(@PathVariable("statusId") int statusId, @PathVariable("userId") int userId, @PathVariable("replyId") int replyId) {
+        userFeedService.removeReplyFromStatus(statusId, userId, replyId);
+    }
 }

@@ -65,8 +65,6 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getById(int id) {
         return entityManager.find(User.class,id);
-        //Todo this causes null pointer if you delete the first one
-
     }
 
     @Override

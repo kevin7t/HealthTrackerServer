@@ -12,6 +12,7 @@ import com.kevin.healthtracker.datamodels.Reply;
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.LikeDAOImpl;
+import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.service.interfaces.UserFeedService;
@@ -27,6 +28,9 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Autowired
     LikeDAOImpl likeDao;
+
+    @Autowired
+    ReplyDAOImpl replyDAO;
 
 
     @Override
@@ -52,28 +56,15 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public List<Reply> getRepliesFromStatus(int id) {
-        //TODO implement replies
-        return null;
-    }
-
-    @Override
     public void addLikeToStatus(Like like) {
         like.setCreatedAt(currentTime());
         //Get whole object because status also has a user
-        like.setStatus(getStatusById(like.getStatus().getId()));
+        Status status = getStatusById(like.getStatus().getId());
+        status.setLikeCount(status.getLikeCount() + 1);
+        like.setStatus(status);
         like.setUser(getUserById(like.getUser().getId()));
+        statusDAO.updateStatus(status);
         likeDao.addLike(like);
-    }
-
-    @Override
-    public Reply addReplyToStatus(int statusId, int userId, String content) {
-        return null;
-    }
-
-    @Override
-    public void removeReplyFromStatus(int statusId, int userId, int replyId) {
-
     }
 
     @Override
@@ -84,10 +75,31 @@ public class UserFeedServiceImpl implements UserFeedService {
     @Override
     public void removeLikeFromStatus(int statusId, int userId) {
         likeDao.getLikesFromStatus(getStatusById(statusId)).forEach(like -> {
-            if (like.getUser().getId().equals(userId)) {
+            if (like.getUser().getId() == (userId)) {
                 likeDao.removeLike(like);
             }
         });
+    }
+
+    @Override
+    public Reply addReplyToStatus(Reply reply) {
+        reply.setStatus(getStatusById(reply.getStatus().getId()));
+        reply.setUser(getUserById(reply.getUser().getId()));
+        return replyDAO.createReply(reply);
+    }
+
+    @Override
+    public List<Reply> getRepliesFromStatus(int id) {
+        return replyDAO.getRepliesFromStatus(getStatusById(id));
+    }
+
+    @Override
+    public void removeReplyFromStatus(int statusId, int userId, int replyId) {
+        for (Reply reply : replyDAO.getRepliesFromStatus(getStatusById(statusId))) {
+            if (reply.getId() == (replyId) && reply.getUser().getId() == (userId)) ;
+            replyDAO.deleteReply(reply);
+        }
+
     }
 
     private Date currentTime() {

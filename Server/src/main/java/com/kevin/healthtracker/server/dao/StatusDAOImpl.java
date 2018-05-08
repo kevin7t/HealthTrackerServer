@@ -29,6 +29,11 @@ public class StatusDAOImpl implements StatusDAO {
     }
 
     @Override
+    public Status updateStatus(Status status) {
+        return entityManager.merge(status);
+    }
+
+    @Override
     public Status getById(int id) {
         return entityManager.find(Status.class, id);
     }
