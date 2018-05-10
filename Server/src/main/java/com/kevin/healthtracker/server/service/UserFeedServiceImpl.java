@@ -1,12 +1,5 @@
 package com.kevin.healthtracker.server.service;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Reply;
 import com.kevin.healthtracker.datamodels.Status;
@@ -16,6 +9,12 @@ import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.service.interfaces.UserFeedService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class UserFeedServiceImpl implements UserFeedService {
@@ -83,6 +82,7 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public Reply addReplyToStatus(Reply reply) {
+        reply.setCreatedAt(currentTime());
         reply.setStatus(getStatusById(reply.getStatus().getId()));
         reply.setUser(getUserById(reply.getUser().getId()));
         return replyDAO.createReply(reply);
@@ -95,10 +95,7 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public void removeReplyFromStatus(int statusId, int userId, int replyId) {
-        for (Reply reply : replyDAO.getRepliesFromStatus(getStatusById(statusId))) {
-            if (reply.getId() == (replyId) && reply.getUser().getId() == (userId)) ;
-            replyDAO.deleteReply(reply);
-        }
+        //TODO : DELETE REPLY FROM TABLE WHERE STATUS AND USER MATCHES WITHOUT DELETING ALL
 
     }
 
