@@ -19,7 +19,6 @@ public class StatusDTO {
     private StatusType type;
     private String content;
     private int likeCount;
-    private int replyCount;
 
     public StatusDTO(Status status) {
         id = status.getId();
@@ -28,7 +27,6 @@ public class StatusDTO {
         type = status.getType();
         content = status.getContent();
         likeCount = status.getLikeCount();
-        replyCount = status.getReplyCount();
     }
 
     public Status toEntity() {
@@ -41,7 +39,6 @@ public class StatusDTO {
         status.setType(this.getType());
         status.setUser(user);
         status.setLikeCount(this.getLikeCount());
-        status.setReplyCount(this.getReplyCount());
         return status;
     }
 

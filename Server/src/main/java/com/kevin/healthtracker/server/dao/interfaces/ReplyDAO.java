@@ -10,5 +10,7 @@ public interface ReplyDAO {
 
     List<Reply> getRepliesFromStatus(Status status);
 
+    Reply getById(int id);
+
     void deleteReply(Reply reply);
 }

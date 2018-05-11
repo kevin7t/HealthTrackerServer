@@ -40,7 +40,5 @@ public class Status {
     @Column(name = "like_count", nullable = true)
     private int likeCount;
 
-    @Column(name = "reply_count", nullable = true)
-    private int replyCount;
 
 }

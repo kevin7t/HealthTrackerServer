@@ -8,7 +8,8 @@ import com.kevin.healthtracker.datamodels.Status;
 public interface LikeDAO {
     Like addLike(Like like);
 
+    List<Like> getLikesFromStatus(Status status);
+
     void removeLike(Like like);
 
-    List<Like> getLikesFromStatus(Status status);
 }

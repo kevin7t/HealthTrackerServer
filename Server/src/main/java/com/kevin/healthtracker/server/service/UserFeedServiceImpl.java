@@ -1,5 +1,12 @@
 package com.kevin.healthtracker.server.service;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Reply;
 import com.kevin.healthtracker.datamodels.Status;
@@ -9,12 +16,6 @@ import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.service.interfaces.UserFeedService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class UserFeedServiceImpl implements UserFeedService {
@@ -55,7 +56,7 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public void addLikeToStatus(Like like) {
+    public Like addLikeToStatus(Like like) {
         like.setCreatedAt(currentTime());
         //Get whole object because status also has a user
         Status status = getStatusById(like.getStatus().getId());
@@ -63,7 +64,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         like.setStatus(status);
         like.setUser(getUserById(like.getUser().getId()));
         statusDAO.updateStatus(status);
-        likeDao.addLike(like);
+        return likeDao.addLike(like);
     }
 
     @Override
@@ -73,6 +74,7 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public void removeLikeFromStatus(int statusId, int userId) {
+        //TODO: replace by creating the key using getuser/getstatus method
         likeDao.getLikesFromStatus(getStatusById(statusId)).forEach(like -> {
             if (like.getUser().getId() == (userId)) {
                 likeDao.removeLike(like);
@@ -94,9 +96,8 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public void removeReplyFromStatus(int statusId, int userId, int replyId) {
-        //TODO : DELETE REPLY FROM TABLE WHERE STATUS AND USER MATCHES WITHOUT DELETING ALL
-
+    public void deleteReplyById(int id) {
+        replyDAO.deleteReply(getReplyById(id));
     }
 
     private Date currentTime() {
@@ -111,4 +112,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         return userDAO.getById(id);
     }
 
+    private Reply getReplyById(int id) {
+        return replyDAO.getById(id);
+    }
 }

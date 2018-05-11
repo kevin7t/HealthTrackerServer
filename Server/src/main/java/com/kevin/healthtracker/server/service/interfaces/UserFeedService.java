@@ -19,11 +19,11 @@ public interface UserFeedService {
 
     List<Like> getLikesFromStatus(int id);
 
-    void addLikeToStatus(Like like);
+    Like addLikeToStatus(Like like);
 
     Reply addReplyToStatus(Reply reply);
 
-    void removeReplyFromStatus(int statusId, int userId, int replyId);
+    void deleteReplyById(int replyId);
 
     void removeLikeFromStatus(int statusId, int userId);
 
