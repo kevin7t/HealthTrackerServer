@@ -15,6 +15,7 @@ import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
+import com.kevin.healthtracker.server.exception.DuplicateLikeException;
 import com.kevin.healthtracker.server.service.interfaces.UserFeedService;
 
 @Service
@@ -60,11 +61,18 @@ public class UserFeedServiceImpl implements UserFeedService {
         like.setCreatedAt(currentTime());
         //Get whole object because status also has a user
         Status status = getStatusById(like.getStatus().getId());
-        status.setLikeCount(status.getLikeCount() + 1);
+
         like.setStatus(status);
         like.setUser(getUserById(like.getUser().getId()));
-        statusDAO.updateStatus(status);
-        return likeDao.addLike(like);
+
+        try {
+            status.setLikeCount(status.getLikeCount() + 1);
+            likeDao.addLike(like);
+            statusDAO.updateStatus(status);
+        } catch (DuplicateLikeException e) {
+            e.printStackTrace();
+        }
+        return like;
     }
 
     @Override
