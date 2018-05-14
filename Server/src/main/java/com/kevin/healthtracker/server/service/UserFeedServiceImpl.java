@@ -84,6 +84,8 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public Reply addReplyToStatus(Reply reply) {
+        Status status = getStatusById(reply.getStatus().getId());
+        status.setReplyCount(status.getReplyCount() + 1);
         reply.setCreatedAt(currentTime());
         reply.setStatus(getStatusById(reply.getStatus().getId()));
         reply.setUser(getUserById(reply.getUser().getId()));
@@ -97,6 +99,8 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public void deleteReplyById(int id) {
+        Status status = getStatusById(getReplyById(id).getStatus().getId());
+        status.setReplyCount(status.getReplyCount() - 1);
         replyDAO.deleteReply(getReplyById(id));
     }
 
