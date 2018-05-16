@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.datamodels.dto.UserDTO;
 import com.kevin.healthtracker.server.service.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -41,11 +42,11 @@ public class UserControllerTest {
         user.setUserName("TestUser");
         user.setPassword("Password");
 
-        User expectedOutputUser = new User();
+        UserDTO expectedOutputUser = new UserDTO();
         expectedOutputUser.setId(1);
         expectedOutputUser.setUserName("TestUser");
 
-        when(userService.createUser(user)).thenReturn(user);
+        when(userService.createUser(user)).thenReturn(expectedOutputUser);
 
         mockMvc.perform(post("/healthtracker/users/register")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -77,13 +78,15 @@ public class UserControllerTest {
         user.setUserName("TestUser");
         user.setPassword("Password");
 
-        when(userService.updateUser(user)).thenReturn(user);
+        UserDTO expectedOutputUser = new UserDTO();
+        expectedOutputUser.setUserName("TestUser");
+
+        when(userService.updateUser(user)).thenReturn(expectedOutputUser);
 
         mockMvc.perform(put("/healthtracker/users/changepassword")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(user)));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -92,23 +95,26 @@ public class UserControllerTest {
         user.setId(1);
         user.setUserName("TestUser");
 
-        when(userService.findById(1)).thenReturn(user);
+        UserDTO expectedOutputUser = new UserDTO();
+        expectedOutputUser.setUserName("TestUser");
+
+        when(userService.findById(1)).thenReturn(expectedOutputUser);
 
         mockMvc.perform(get("/healthtracker/users/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isFound())
-                .andExpect(content().json(objectMapper.writeValueAsString(user)));
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedOutputUser)));
     }
 
     @Test
     public void getUserList() throws Exception {
-        User user1 = new User();
-        User user2 = new User();
+        UserDTO user1 = new UserDTO();
+        UserDTO user2 = new UserDTO();
         user1.setId(1);
         user2.setId(2);
         user1.setUserName("User1");
         user2.setUserName("User2");
-        List<User> users = Arrays.asList(user1, user2);
+        List<UserDTO> users = Arrays.asList(user1, user2);
 
         when(userService.getAllUsers()).thenReturn(users);
 

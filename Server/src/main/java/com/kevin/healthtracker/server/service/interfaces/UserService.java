@@ -4,16 +4,17 @@ package com.kevin.healthtracker.server.service.interfaces;
 import java.util.List;
 
 import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.datamodels.dto.UserDTO;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<UserDTO> getAllUsers();
 
-    User createUser(User user);
+    UserDTO createUser(User user);
 
-    User updateUser(User user);
+    UserDTO updateUser(User user);
 
-    User findById(int id);
+    UserDTO findById(int id);
 
     Boolean authenticateUser(User user);
 
