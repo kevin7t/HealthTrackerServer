@@ -18,6 +18,7 @@ ext {
     springCoreVersion = '5.0.4.RELEASE'
     jacksonVersion = '2.9.4'
     junitVersion = '4.12'
+    modelMapperVersion= '1.1.0'
 }
 
 subprojects {
@@ -40,6 +41,7 @@ subprojects {
         compile("com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
         compile("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
         compile("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
+        compile("org.modelmapper:modelmapper:${modelMapperVersion}")
         compileOnly("org.projectlombok:lombok:${lombokVersion}")
 
         testCompileOnly("org.projectlombok:lombok:${lombokVersion}")

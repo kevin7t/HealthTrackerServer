@@ -53,6 +53,7 @@ public class UserFeedController {
     }
 
     @RequestMapping(value = "/status/like/{statusId}/{userId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeLike(@PathVariable("statusId") int statusId, @PathVariable("userId") int userId) {
         userFeedService.removeLikeFromStatus(statusId, userId);
     }
@@ -68,6 +69,7 @@ public class UserFeedController {
     }
 
     @RequestMapping(value = "/status/reply/{replyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteReply(@PathVariable("replyId") int replyId) {
         userFeedService.deleteReplyById(replyId);
     }
