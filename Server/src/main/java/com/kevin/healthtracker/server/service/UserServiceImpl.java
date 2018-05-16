@@ -59,11 +59,4 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-
-    private User userWithoutCredentials(User user) {
-        user.setPassword(null);
-        user.setHash(null);
-        user.setSalt(null);
-        return user;
-    }
 }
