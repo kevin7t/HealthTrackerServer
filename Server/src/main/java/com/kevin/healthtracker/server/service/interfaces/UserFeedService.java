@@ -3,25 +3,25 @@ package com.kevin.healthtracker.server.service.interfaces;
 
 import java.util.List;
 
-import com.kevin.healthtracker.datamodels.Like;
-import com.kevin.healthtracker.datamodels.Reply;
-import com.kevin.healthtracker.datamodels.Status;
+import com.kevin.healthtracker.datamodels.dto.LikeDTO;
+import com.kevin.healthtracker.datamodels.dto.ReplyDTO;
+import com.kevin.healthtracker.datamodels.dto.StatusDTO;
 
 public interface UserFeedService {
 
-    Status createStatus(Status status);
+    StatusDTO createStatus(StatusDTO statusDTO);
 
-    Status updateStatus(Status status);
+    StatusDTO updateStatus(StatusDTO statusDTO);
 
-    List<Status> getStatusesByUserId(int userId, int pageNumber);
+    List<StatusDTO> getStatusesByUserId(int userId, int pageNumber);
 
-    List<Reply> getRepliesFromStatus(int id);
+    List<ReplyDTO> getRepliesFromStatus(int id);
 
-    List<Like> getLikesFromStatus(int id);
+    List<LikeDTO> getLikesFromStatus(int id);
 
-    Like addLikeToStatus(Like like);
+    LikeDTO addLikeToStatus(LikeDTO likeDTO);
 
-    Reply addReplyToStatus(Reply reply);
+    ReplyDTO addReplyToStatus(ReplyDTO replyDTO);
 
     void deleteReplyById(int replyId);
 
