@@ -13,5 +13,10 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return new ExceptionMessage(e.getMessage());
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(DuplicateLikeException.class)
+    @ResponseBody
+    public ExceptionMessage duplicateLike(Exception e) {
+        return new ExceptionMessage(e.getMessage());
+    }
 
 }
