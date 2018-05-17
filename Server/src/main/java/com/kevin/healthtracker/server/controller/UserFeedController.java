@@ -1,5 +1,7 @@
 package com.kevin.healthtracker.server.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,14 +28,14 @@ public class UserFeedController {
 
 
     @RequestMapping(value = "/status", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity addStatus(@RequestBody StatusDTO statusDTO) {
-        return new ResponseEntity(userFeedService.createStatus(statusDTO), HttpStatus.CREATED);
+    public ResponseEntity<StatusDTO> addStatus(@RequestBody StatusDTO statusDTO) {
+        return new ResponseEntity<>(userFeedService.createStatus(statusDTO), HttpStatus.CREATED);
     }
 
-    //Needs ?page=pageNumber in url
+    //Needs ?page?=pageNumber in url
     @RequestMapping(value = "/status/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getStatus(@PathVariable("userId") int userId, @RequestParam("page") int pageNumber) {
-        return new ResponseEntity(userFeedService.getStatusesByUserId(userId, pageNumber), HttpStatus.OK);
+    public ResponseEntity<List<StatusDTO>> getStatus(@PathVariable("userId") int userId, @RequestParam("page") int pageNumber) {
+        return new ResponseEntity<>(userFeedService.getStatusesByUserId(userId, pageNumber), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/status/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -43,13 +45,13 @@ public class UserFeedController {
     }
 
     @RequestMapping(value = "/status/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity addLike(@RequestBody LikeDTO likeDTO) {
-        return new ResponseEntity(userFeedService.addLikeToStatus(likeDTO), HttpStatus.CREATED);
+    public ResponseEntity<LikeDTO> addLike(@RequestBody LikeDTO likeDTO) {
+        return new ResponseEntity<>(userFeedService.addLikeToStatus(likeDTO), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/status/like/{statusId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getLikes(@PathVariable("statusId") int id) {
-        return new ResponseEntity(userFeedService.getLikesFromStatus(id), HttpStatus.OK);
+    public ResponseEntity<List<LikeDTO>> getLikes(@PathVariable("statusId") int id) {
+        return new ResponseEntity<>(userFeedService.getLikesFromStatus(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/status/like/{statusId}/{userId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -59,13 +61,13 @@ public class UserFeedController {
     }
 
     @RequestMapping(value = "/status/reply", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity sendReply(@RequestBody ReplyDTO replyDTO) {
-        return new ResponseEntity(userFeedService.addReplyToStatus(replyDTO), HttpStatus.CREATED);
+    public ResponseEntity<ReplyDTO> sendReply(@RequestBody ReplyDTO replyDTO) {
+        return new ResponseEntity<>(userFeedService.addReplyToStatus(replyDTO), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/status/reply/{statusId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getReplies(@PathVariable("statusId") int id) {
-        return new ResponseEntity(userFeedService.getRepliesFromStatus(id), HttpStatus.OK);
+    public ResponseEntity<List<ReplyDTO>> getReplies(@PathVariable("statusId") int id) {
+        return new ResponseEntity<>(userFeedService.getRepliesFromStatus(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/status/reply/{replyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

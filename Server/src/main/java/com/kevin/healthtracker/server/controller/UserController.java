@@ -26,27 +26,27 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDTO> add(@RequestBody User user) {
-        return new ResponseEntity(userService.createUser(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Boolean> authenticateUser(@RequestBody User user) {
-        return new ResponseEntity(userService.authenticateUser(user), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.authenticateUser(user), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/changepassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDTO> changePassword(@RequestBody User user) {
-        return new ResponseEntity(userService.updateUser(user), HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     private ResponseEntity<List<UserDTO>> getAllUsers() {
-        return new ResponseEntity(userService.getAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDTO> getUser(@PathVariable("id") int id) {
-        return new ResponseEntity(userService.findById(id), HttpStatus.FOUND);
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
