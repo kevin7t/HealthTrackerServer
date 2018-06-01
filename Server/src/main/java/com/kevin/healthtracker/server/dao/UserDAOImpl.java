@@ -2,6 +2,7 @@ package com.kevin.healthtracker.server.dao;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kevin.healthtracker.datamodels.Role;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.interfaces.UserDAO;
 import com.kevin.healthtracker.server.exception.DuplicateUserException;
@@ -36,6 +38,7 @@ public class UserDAOImpl implements UserDAO {
             byte[] salt = Encrypter.generateSalt();
             user.setHash(Encrypter.generateHash(user.getPassword(), salt));
             user.setSalt(salt);
+            user.setRoles(Arrays.asList(Role.ROLE_CLIENT));
             entityManager.persist(user);
             entityManager.flush();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

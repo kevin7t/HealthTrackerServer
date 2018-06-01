@@ -16,9 +16,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
+import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.StatusType;
 import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.datamodels.dto.LikeDTO;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
 import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
@@ -65,6 +67,7 @@ public class UserFeedServiceImplTest {
 
         when(statusDAO.getStatusesByUser(isA(User.class), isA(Integer.class))).thenReturn(expectedStatus);
         when(userDAO.getById(isA(Integer.class))).thenReturn(getUser());
+
         List<Status> actualStatus = userFeedService.getStatusesByUserId(1, 1)
                 .stream().map(statusDTO -> modelMapper.map(statusDTO, Status.class)).collect(Collectors.toList());
         assertEquals(expectedStatus, actualStatus);
@@ -76,6 +79,8 @@ public class UserFeedServiceImplTest {
 
     @Test
     public void addLikeToStatus() {
+        when(likeDAO.addLike(isA(Like.class))).thenReturn(getLike());
+        userFeedService.addLikeToStatus(getLikeDTO());
     }
 
     @Test
@@ -109,12 +114,30 @@ public class UserFeedServiceImplTest {
         return expectedStatus;
     }
 
+    private Like getLike() {
+        Like like = new Like();
+        like.setUser(getUser());
+        like.setStatus(getStatus());
+        like.setId(1);
+        return like;
+    }
+
+    private LikeDTO getLikeDTO() {
+        LikeDTO like = new LikeDTO();
+        like.setUserId(1);
+        like.setStatusId(1);
+        like.setId(1);
+        return like;
+    }
+
     private Status getStatus() {
         Status status = new Status();
         status.setId(1);
         status.setUser(getUser());
         status.setType(StatusType.BIKE);
         status.setContent("Test");
+        status.setLikeCount(0);
+        status.setReplyCount(0);
         return status;
     }
 

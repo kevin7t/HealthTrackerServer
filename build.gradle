@@ -19,6 +19,7 @@ ext {
     jacksonVersion = '2.9.4'
     junitVersion = '4.12'
     modelMapperVersion= '1.1.0'
+    jjwtVersion = '0.9.0'
 }
 
 subprojects {

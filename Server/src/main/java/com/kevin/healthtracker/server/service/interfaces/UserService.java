@@ -16,6 +16,8 @@ public interface UserService {
 
     UserDTO findById(int id);
 
+    UserDTO findByUserName(String username);
+
     Boolean authenticateUser(User user);
 
     void deleteById(int id);

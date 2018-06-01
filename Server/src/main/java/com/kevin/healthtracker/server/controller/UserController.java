@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.UserDTO;
+import com.kevin.healthtracker.server.security.JwtTokenProvider;
+import com.kevin.healthtracker.server.service.UserAuthenticationServiceImpl;
 import com.kevin.healthtracker.server.service.UserServiceImpl;
 
 @Controller
@@ -24,14 +27,33 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UserDTO> add(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    @Autowired
+    UserAuthenticationServiceImpl authenticationService;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<String> add(@RequestBody User user) {
+        UserDTO userDTO = userService.createUser(user);
+        String token = jwtTokenProvider.createToken(userDTO.getUserName(), userDTO.getRoles());
+        SecurityContextHolder.getContext().setAuthentication(jwtTokenProvider.getAuthentication(token));
+        authenticationService.login(token, user.getUserName());
+        return new ResponseEntity<>(token, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Boolean> authenticateUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.authenticateUser(user), HttpStatus.ACCEPTED);
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<String> authenticateUser(@RequestBody User user) {
+        String token;
+        if (userService.authenticateUser(user)) {
+            UserDTO userDTO = userService.findByUserName(user.getUserName());
+            token = jwtTokenProvider.createToken(userDTO.getUserName(), userDTO.getRoles());
+            SecurityContextHolder.getContext().setAuthentication(jwtTokenProvider.getAuthentication(token));
+            authenticationService.login(token, user.getUserName());
+            return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/changepassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findByUserName(String username) {
+        return modelMapper.map(userDAO.getByUserName(username), UserDTO.class);
+    }
+
+    @Override
     public void deleteById(int id) {
         userDAO.deleteById(id);
     }
