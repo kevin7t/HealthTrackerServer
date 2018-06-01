@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,12 +28,15 @@ public class User {
     @Column(name = "userName", nullable = false, unique = true)
     private String userName;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "salt", nullable = false)
     private byte[] salt;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "hash", nullable = false)
     private byte[] hash;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Transient
     private String password;
 

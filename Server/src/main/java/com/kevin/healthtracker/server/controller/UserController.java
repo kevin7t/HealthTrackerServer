@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.datamodels.dto.UserDTO;
 import com.kevin.healthtracker.server.service.UserServiceImpl;
 
 @Controller
@@ -25,7 +24,7 @@ public class UserController {
     UserServiceImpl userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UserDTO> add(@RequestBody User user) {
+    public ResponseEntity<User> add(@RequestBody User user) {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
@@ -35,17 +34,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/changepassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UserDTO> changePassword(@RequestBody User user) {
+    public ResponseEntity<User> changePassword(@RequestBody User user) {
         return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    private ResponseEntity<List<UserDTO>> getAllUsers() {
+    private ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UserDTO> getUser(@PathVariable("id") int id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
         return new ResponseEntity<>(userService.findById(id), HttpStatus.FOUND);
     }
 
