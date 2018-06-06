@@ -28,6 +28,7 @@ public class User {
     @Column(name = "userName", nullable = false, unique = true)
     private String userName;
 
+    //Write only removes these fields from coming out of the controller
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "salt", nullable = false)
     private byte[] salt;
