@@ -30,7 +30,7 @@ public class Friend {
     private User user2;
 
     @Column(name = "friendStatus", nullable = false)
-    private int friendStatus;
+    private FriendStatus friendStatus;
 
     //id of user initiating friend action
     @Column(name = "userActionId", nullable = false)
