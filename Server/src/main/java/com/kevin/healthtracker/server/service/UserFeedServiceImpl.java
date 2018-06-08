@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.kevin.healthtracker.datamodels.Like;
@@ -46,6 +47,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         //Map DTO to Entity
         Status status = modelMapper.map(statusDTO, Status.class);
         status.setCreatedAt(currentTime());
+        status.setUser(userDAO.getByUserName(SecurityContextHolder.getContext().getAuthentication().getName()));
         status = statusDAO.createStatus(status);
         //Map Entity back to DTO
         return modelMapper.map(status, StatusDTO.class);
@@ -64,6 +66,7 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
+
     public void deleteStatusById(int id) {
         statusDAO.deleteById(id);
     }
@@ -76,7 +79,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         Status status = getStatusById(like.getStatus().getId());
 
         like.setStatus(status);
-        like.setUser(getUserById(like.getUser().getId()));
+        like.setUser(userDAO.getByUserName(SecurityContextHolder.getContext().getAuthentication().getName()));
 
         try {
             status.setLikeCount(status.getLikeCount() + 1);
@@ -112,7 +115,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         status.setReplyCount(status.getReplyCount() + 1);
         reply.setCreatedAt(currentTime());
         reply.setStatus(getStatusById(reply.getStatus().getId()));
-        reply.setUser(getUserById(reply.getUser().getId()));
+        reply.setUser(userDAO.getByUserName(SecurityContextHolder.getContext().getAuthentication().getName()));
         return modelMapper.map(replyDAO.createReply(reply), ReplyDTO.class);
     }
 

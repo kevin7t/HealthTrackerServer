@@ -33,8 +33,6 @@ public class UserFeedController {
 
     @RequestMapping(value = "/status", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<StatusDTO> addStatus(@RequestBody StatusDTO statusDTO, HttpServletRequest request) {
-        //TODO: Get user from the token and assign to incoming objects
-        getUser(request);
         return new ResponseEntity<>(userFeedService.createStatus(statusDTO), HttpStatus.CREATED);
     }
 

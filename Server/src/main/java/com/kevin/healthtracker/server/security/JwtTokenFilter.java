@@ -25,12 +25,6 @@ public class JwtTokenFilter extends GenericFilterBean {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
-        //Gets the token and the username from the token from the user input
-        //Then adds it to the request attribute which goes to the controller
-        //This allows the username to be tied to the token that is used
-        ((HttpServletRequest) request).getSession().setAttribute("token", token);
-        ((HttpServletRequest) request).getSession().setAttribute("username", jwtTokenProvider.getUsername(token));
         chain.doFilter(request, response);
     }
 }
