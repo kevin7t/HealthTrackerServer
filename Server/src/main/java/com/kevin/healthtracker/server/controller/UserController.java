@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.UserDTO;
+import com.kevin.healthtracker.server.service.FriendServiceImpl;
 import com.kevin.healthtracker.server.service.UserServiceImpl;
 
 @Controller
@@ -23,6 +24,9 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    FriendServiceImpl friendService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDTO> add(@RequestBody User user) {
