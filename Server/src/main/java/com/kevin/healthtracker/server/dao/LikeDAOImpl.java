@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Status;
+import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.interfaces.LikeDAO;
 import com.kevin.healthtracker.server.exception.DuplicateLikeException;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,12 @@ public class LikeDAOImpl implements LikeDAO {
     @Override
     public void removeLike(Like like) {
         entityManager.remove(like);
+    }
+
+    @Override
+    public void removeLike(User user, Status status) {
+        String query = ("DELETE l FROM Like l WHERE l.user = ? AND l.status = ?");
+        entityManager.createQuery(query).setParameter(0, user).setParameter(1, status).executeUpdate();
     }
 
     @Override

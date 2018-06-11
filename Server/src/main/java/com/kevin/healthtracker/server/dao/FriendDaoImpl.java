@@ -38,6 +38,12 @@ public class FriendDaoImpl implements FriendDao {
     }
 
     @Override
+    public void deleteFriendRelation(User user1, User user2) {
+        String query = ("DELETE FROM Friend f WHERE f.user1 = ? AND f.user2 = ?");
+        entityManager.createQuery(query).setParameter(0, user1).setParameter(1, user2).executeUpdate();
+    }
+
+    @Override
     public Friend getFriendRelation(UserUserKey key) {
         return entityManager.find(Friend.class, key);
     }
