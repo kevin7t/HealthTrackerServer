@@ -40,7 +40,7 @@ public class LikeDAOImpl implements LikeDAO {
 
     @Override
     public List<Like> getLikesFromStatus(Status status) {
-        String query = "SELECT l FROM Like l WHERE l.status = ?";
+        String query = "SELECT l FROM Like l WHERE l.status = ?0";
         return entityManager.createQuery(query).setParameter(0, status).getResultList();
     }
 }

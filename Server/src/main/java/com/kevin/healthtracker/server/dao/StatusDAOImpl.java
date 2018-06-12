@@ -40,7 +40,7 @@ public class StatusDAOImpl implements StatusDAO {
 
     @Override
     public List<Status> getStatusesByUser(User user, int pageNumber) {
-        String query = "SELECT s FROM Status s WHERE s.user = ?";
+        String query = "SELECT s FROM Status s WHERE s.user = ?0";
         return entityManager.createQuery(query)
                 .setParameter(0, user)
                 .setFirstResult((pageNumber - 1) * pageSize)

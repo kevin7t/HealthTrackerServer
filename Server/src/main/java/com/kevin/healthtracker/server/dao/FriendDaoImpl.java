@@ -44,7 +44,7 @@ public class FriendDaoImpl implements FriendDao {
 
     @Override
     public List<Friend> getFriendRelationList(User user) {
-        String query = ("SELECT f FROM Friend f WHERE f.user1 = ?");
+        String query = ("SELECT f FROM Friend f WHERE f.user1 = ?0");
         return entityManager.createQuery(query).setParameter(0, user).getResultList();
     }
 }

@@ -69,7 +69,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getByUserName(String userName) {
-        String query = "SELECT u FROM User u WHERE u.userName = ?";
+        String query = "SELECT u FROM User u WHERE u.userName = ?0";
         return (User) entityManager.createQuery(query)
                 .setParameter(0, userName)
                 .getResultList().get(0);

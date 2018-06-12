@@ -30,8 +30,8 @@ public class ReplyDAOImpl implements ReplyDAO {
 
     @Override
     public List<Reply> getRepliesFromStatus(Status status) {
-        String query = "SELECT r FROM Reply r WHERE r.status = ?";
-        return entityManager.createQuery(query).setParameter(0, status).getResultList();
+        String query = "SELECT r FROM Reply r WHERE r.status = ?1";
+        return entityManager.createQuery(query).setParameter(1, status).getResultList();
     }
 
     @Override
