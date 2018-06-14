@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.server.dao.interfaces.LikeDAO;
-import com.kevin.healthtracker.server.exception.DuplicateLikeException;
 import lombok.extern.slf4j.Slf4j;
 
 @Transactional
@@ -29,7 +28,8 @@ public class LikeDAOImpl implements LikeDAO {
             entityManager.flush();
             return like;
         } catch (PersistenceException e) {
-            throw new DuplicateLikeException(like.getUser().getUserName(), like.getStatus().getId());
+//            throw new DuplicateLikeException(like.getUser().getUserName(), like.getStatus().getId());
+            throw new PersistenceException(e.getMessage());
         }
     }
 

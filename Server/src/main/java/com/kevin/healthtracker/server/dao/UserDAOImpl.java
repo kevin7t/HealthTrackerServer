@@ -41,7 +41,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         } catch (PersistenceException e) {
-            throw new DuplicateUserException(user.getUserName());
+            throw new DuplicateUserException(user.getUserName() + e.getMessage());
         }
         log.info("Created user with name:" + user.getUserName());
         return user;

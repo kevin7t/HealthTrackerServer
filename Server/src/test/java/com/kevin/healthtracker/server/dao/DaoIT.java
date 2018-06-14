@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.StatusType;
 import com.kevin.healthtracker.datamodels.User;
@@ -22,13 +23,67 @@ import com.kevin.healthtracker.server.Application;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class StatusDAOIT {
+public class DaoIT {
 
     @Autowired
     StatusDAOImpl statusDAO;
 
     @Autowired
     UserDAOImpl userDAO;
+
+    @Autowired
+    LikeDAOImpl likeDAO;
+
+
+    @Test
+    public void addUser() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+
+        newUser = userDAO.createUser(newUser);
+
+        assertEquals(newUser.getUserName(), "Test");
+    }
+
+    @Test
+    public void getStoredUser() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+        User retrievedUser = userDAO.getById(newUser.getId());
+        assertEquals(retrievedUser.getId(), newUser.getId());
+        assertEquals(retrievedUser.getUserName(), newUser.getUserName());
+    }
+
+    @Test
+    public void deleteUser() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+        userDAO.deleteById(newUser.getId());
+        assertNull(userDAO.getById(newUser.getId()));
+    }
+
+    @Test
+    public void getAllUsers() {
+        User newUser = new User();
+        User newUser2 = new User();
+
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password2");
+
+        userDAO.createUser(newUser);
+        userDAO.createUser(newUser2);
+
+        List<User> users = userDAO.getAllUsers();
+        assertEquals(users.size(), 2);
+    }
 
     @Test
     public void createStatus() {
@@ -45,15 +100,11 @@ public class StatusDAOIT {
         newStatus = statusDAO.createStatus(newStatus);
 
         assertEquals(newStatus.getContent(), "Test content");
-
     }
 
-    @Test
-    public void updateStatus() {
-    }
 
     @Test
-    public void getById() {
+    public void getStatusById() {
         User newUser = new User();
         newUser.setUserName("Test");
         newUser.setPassword("Password");
@@ -99,7 +150,7 @@ public class StatusDAOIT {
     }
 
     @Test
-    public void deleteById() {
+    public void deleteStatusById() {
         User newUser = new User();
         newUser.setUserName("Test");
         newUser.setPassword("Password");
@@ -115,11 +166,27 @@ public class StatusDAOIT {
         assertNull(statusDAO.getById(newStatus.getId()));
     }
 
-    private User getUser() {
-        User user = new User();
-        user.setId(1);
-        user.setUserName("Test1");
-        user.setPassword("Password");
-        return user;
+    @Test
+    public void addLikeToStatus() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+//        Status newStatus = new Status();
+//        newStatus.setType(StatusType.BIKE);
+//        newStatus.setUser(newUser);
+//        newStatus.setContent("Test content");
+//        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+//        newStatus = statusDAO.createStatus(newStatus);
+
+        Like like = new Like();
+        like.setUser(newUser);
+//        like.setStatus(newStatus);
+        like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        like = likeDAO.addLike(like);
+
+        //TODO: Figure out why detatch entity errors when using like dao
+
     }
 }
