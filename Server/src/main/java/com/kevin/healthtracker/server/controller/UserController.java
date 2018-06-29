@@ -2,6 +2,7 @@ package com.kevin.healthtracker.server.controller;
 
 import java.util.List;
 
+import com.kevin.healthtracker.datamodels.Friend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,4 +59,25 @@ public class UserController {
     public void delete(@PathVariable("id") int id) {
         userService.deleteById(id);
     }
+
+    @RequestMapping(value = "/addfriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> addFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.addFriendRelation(user1, user2), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/acceptfriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> acceptFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.acceptFriendRelation(user1, user2), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/declinefriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> declineFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.declineFriendRelation(user1, user2), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/deletefriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void deleteFriend(@PathVariable int user1, @PathVariable int user2) {
+        friendService.deleteFriendRelation(user1, user2);
+    }
+
 }

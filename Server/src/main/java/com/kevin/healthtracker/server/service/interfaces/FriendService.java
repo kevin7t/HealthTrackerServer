@@ -9,6 +9,11 @@ public interface FriendService {
 
     Friend updateFriendRelation(Friend friend);
 
+    Friend acceptFriendRelation(int user1, int user2);
+
+    Friend declineFriendRelation(int user1, int user2);
+
+
     void deleteFriendRelation(int user1, int user2);
 
     Friend getFriendRelation(int user1, int user2);
