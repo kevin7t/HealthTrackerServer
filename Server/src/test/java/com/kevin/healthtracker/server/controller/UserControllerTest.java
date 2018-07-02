@@ -1,5 +1,6 @@
 package com.kevin.healthtracker.server.controller;
 
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -11,6 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import com.kevin.healthtracker.datamodels.Friend;
+import com.kevin.healthtracker.datamodels.FriendStatus;
+import com.kevin.healthtracker.server.service.FriendServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +38,9 @@ public class UserControllerTest {
     @MockBean
     private UserServiceImpl userService;
 
+    @MockBean
+    private FriendServiceImpl friendService;
+
     @Test
     public void add() throws Exception {
         com.kevin.healthtracker.datamodels.User user = new com.kevin.healthtracker.datamodels.User();
@@ -45,7 +52,7 @@ public class UserControllerTest {
         expectedOutputUser.setId(1);
         expectedOutputUser.setUserName("TestUser");
 
-        when(userService.createUser(user)).thenReturn(expectedOutputUser);
+        when(userService.createUser(isA(User.class))).thenReturn(expectedOutputUser);
 
         mockMvc.perform(post("/healthtracker/users/register")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -61,7 +68,7 @@ public class UserControllerTest {
         user.setUserName("TestUser");
         user.setPassword("Password");
 
-        when(userService.authenticateUser(user)).thenReturn(true);
+        when(userService.authenticateUser(isA(User.class))).thenReturn(true);
 
         mockMvc.perform(post("/healthtracker/users/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -80,7 +87,7 @@ public class UserControllerTest {
         User expectedOutputUser = new User();
         expectedOutputUser.setUserName("TestUser");
 
-        when(userService.updateUser(user)).thenReturn(expectedOutputUser);
+        when(userService.updateUser(isA(User.class))).thenReturn(expectedOutputUser);
 
         mockMvc.perform(put("/healthtracker/users/changepassword")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -129,5 +136,92 @@ public class UserControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    public void user1AddUser2() throws Exception {
+        Friend friend = new Friend();
+        User user1 = new User();
+        User user2 = new User();
+        user1.setId(1);
+        user2.setId(2);
+        user1.setUserName("User1");
+        user2.setUserName("User2");
+        friend.setId(1);
+        friend.setFriendStatus(FriendStatus.PENDING);
+        friend.setUser1(user1);
+        friend.setUser2(user2);
+        friend.setUserActionId(user1.getId());
+        when(friendService.addFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+
+        mockMvc.perform(post("/healthtracker/users/addfriend/1/2")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(friend)));
+    }
+
+    @Test
+    public void acceptUser1FriendRequest() throws Exception {
+        Friend friend = new Friend();
+        User user1 = new User();
+        User user2 = new User();
+        user1.setId(1);
+        user2.setId(2);
+        user1.setUserName("User1");
+        user2.setUserName("User2");
+        friend.setId(1);
+        friend.setFriendStatus(FriendStatus.ACCEPTED);
+        friend.setUser1(user1);
+        friend.setUser2(user2);
+        friend.setUserActionId(user1.getId());
+        when(friendService.acceptFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+
+        mockMvc.perform(post("/healthtracker/users/acceptfriend/1/2")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(friend)));
+    }
+
+    @Test
+    public void declineUser1FriendRequest() throws Exception {
+        Friend friend = new Friend();
+        User user1 = new User();
+        User user2 = new User();
+        user1.setId(1);
+        user2.setId(2);
+        user1.setUserName("User1");
+        user2.setUserName("User2");
+        friend.setId(1);
+        friend.setFriendStatus(FriendStatus.DECLINED);
+        friend.setUser1(user1);
+        friend.setUser2(user2);
+        friend.setUserActionId(user1.getId());
+        when(friendService.declineFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+
+        mockMvc.perform(post("/healthtracker/users/declinefriend/1/2")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(friend)));
+    }
+
+    @Test
+    public void getFriendRelation() throws Exception {
+        Friend friend = new Friend();
+        User user1 = new User();
+        User user2 = new User();
+        user1.setId(1);
+        user2.setId(2);
+        user1.setUserName("User1");
+        user2.setUserName("User2");
+        friend.setId(1);
+        friend.setFriendStatus(FriendStatus.ACCEPTED);
+        friend.setUser1(user1);
+        friend.setUser2(user2);
+        friend.setUserActionId(user1.getId());
+        when(friendService.getFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+
+        mockMvc.perform(get("/healthtracker/users/getfriend/1/2")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(friend)));
+    }
 
 }
