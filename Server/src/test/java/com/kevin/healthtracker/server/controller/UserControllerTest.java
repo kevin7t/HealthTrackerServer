@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.datamodels.dto.UserDTO;
 import com.kevin.healthtracker.server.service.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -37,12 +36,12 @@ public class UserControllerTest {
 
     @Test
     public void add() throws Exception {
-        User user = new User();
+        com.kevin.healthtracker.datamodels.User user = new com.kevin.healthtracker.datamodels.User();
         user.setId(1);
         user.setUserName("TestUser");
         user.setPassword("Password");
 
-        UserDTO expectedOutputUser = new UserDTO();
+        User expectedOutputUser = new User();
         expectedOutputUser.setId(1);
         expectedOutputUser.setUserName("TestUser");
 
@@ -57,7 +56,7 @@ public class UserControllerTest {
 
     @Test
     public void authenticateUser() throws Exception {
-        User user = new User();
+        com.kevin.healthtracker.datamodels.User user = new com.kevin.healthtracker.datamodels.User();
         user.setId(1);
         user.setUserName("TestUser");
         user.setPassword("Password");
@@ -74,11 +73,11 @@ public class UserControllerTest {
 
     @Test
     public void changePassword() throws Exception {
-        User user = new User();
+        com.kevin.healthtracker.datamodels.User user = new com.kevin.healthtracker.datamodels.User();
         user.setUserName("TestUser");
         user.setPassword("Password");
 
-        UserDTO expectedOutputUser = new UserDTO();
+        User expectedOutputUser = new User();
         expectedOutputUser.setUserName("TestUser");
 
         when(userService.updateUser(user)).thenReturn(expectedOutputUser);
@@ -91,11 +90,11 @@ public class UserControllerTest {
 
     @Test
     public void getUser() throws Exception {
-        User user = new User();
+        com.kevin.healthtracker.datamodels.User user = new com.kevin.healthtracker.datamodels.User();
         user.setId(1);
         user.setUserName("TestUser");
 
-        UserDTO expectedOutputUser = new UserDTO();
+        User expectedOutputUser = new User();
         expectedOutputUser.setUserName("TestUser");
 
         when(userService.findById(1)).thenReturn(expectedOutputUser);
@@ -108,13 +107,13 @@ public class UserControllerTest {
 
     @Test
     public void getUserList() throws Exception {
-        UserDTO user1 = new UserDTO();
-        UserDTO user2 = new UserDTO();
+        User user1 = new User();
+        User user2 = new User();
         user1.setId(1);
         user2.setId(2);
         user1.setUserName("User1");
         user2.setUserName("User2");
-        List<UserDTO> users = Arrays.asList(user1, user2);
+        List<User> users = Arrays.asList(user1, user2);
 
         when(userService.getAllUsers()).thenReturn(users);
 
