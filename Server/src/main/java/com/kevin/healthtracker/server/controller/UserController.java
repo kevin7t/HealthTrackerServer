@@ -75,9 +75,14 @@ public class UserController {
         return new ResponseEntity<>(friendService.declineFriendRelation(user1, user2), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/deletefriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/deletefriend/{user1}/{user2}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void deleteFriend(@PathVariable int user1, @PathVariable int user2) {
         friendService.deleteFriendRelation(user1, user2);
+    }
+
+    @RequestMapping(value = "/getfriend/{user1}/{user2}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> getFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.getFriendRelation(user1, user2), HttpStatus.OK);
     }
 
 }
