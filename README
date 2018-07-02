@@ -50,4 +50,4 @@ http://localhost:8080/healthtracker/status/create
 
 To build this run bootJar task and get the jar from Server/build/libs/Server.jar
 
- Docker for mac cannot use network mode host because it uses vm instead of containers
+ Docker for mac cannot use network mode host because it uses vm instead of containers, therefore run mysql standalone and then run the jar instead when dev on osx
