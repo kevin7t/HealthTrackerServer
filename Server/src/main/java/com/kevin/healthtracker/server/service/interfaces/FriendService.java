@@ -1,8 +1,8 @@
 package com.kevin.healthtracker.server.service.interfaces;
 
-import java.util.List;
-
 import com.kevin.healthtracker.datamodels.Friend;
+
+import java.util.List;
 
 public interface FriendService {
     Friend addFriendRelation(int user1, int user2);
@@ -13,10 +13,13 @@ public interface FriendService {
 
     Friend declineFriendRelation(int user1, int user2);
 
-
     void deleteFriendRelation(int user1, int user2);
 
     Friend getFriendRelation(int user1, int user2);
+
+    List<Friend> getInboundPendingRequestsForUser(int user1);
+
+    List<Friend> getOutboundPendingRequestsForUser(int user1);
 
     List<Friend> getFriendRelationList(int user1);
 }
