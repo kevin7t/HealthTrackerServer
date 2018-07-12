@@ -1,12 +1,6 @@
 package com.kevin.healthtracker.datamodels;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
@@ -20,6 +14,10 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @IdClass(UserUserKey.class)
 public class Friend {
+    
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private int Id;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
