@@ -1,9 +1,9 @@
 package com.kevin.healthtracker.datamodels.compositekeys;
 
-import java.io.Serializable;
-
 import com.kevin.healthtracker.datamodels.User;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @NoArgsConstructor
 public class UserUserKey implements Serializable {

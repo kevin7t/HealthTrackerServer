@@ -1,12 +1,13 @@
-package com.kevin.healthtracker.server.dao;
+package com.kevin.healthtracker.server.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-
+import com.kevin.healthtracker.datamodels.Like;
+import com.kevin.healthtracker.datamodels.Status;
+import com.kevin.healthtracker.datamodels.StatusType;
+import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.server.Application;
+import com.kevin.healthtracker.server.dao.LikeDAOImpl;
+import com.kevin.healthtracker.server.dao.StatusDAOImpl;
+import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kevin.healthtracker.datamodels.Like;
-import com.kevin.healthtracker.datamodels.Status;
-import com.kevin.healthtracker.datamodels.StatusType;
-import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.server.Application;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
+//This creates a fresh run every test case
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class DaoIT {
 

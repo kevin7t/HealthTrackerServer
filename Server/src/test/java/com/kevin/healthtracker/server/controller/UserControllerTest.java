@@ -147,7 +147,7 @@ public class UserControllerTest {
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
-        when(friendService.addFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+        when(friendService.addFriendRelation(isA(Integer.class), isA(Integer.class))).thenReturn(friend);
 
         mockMvc.perform(post("/healthtracker/users/addfriend/1/2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -169,7 +169,7 @@ public class UserControllerTest {
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
-        when(friendService.acceptFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+        when(friendService.acceptFriendRelation(isA(Integer.class), isA(Integer.class))).thenReturn(friend);
 
         mockMvc.perform(post("/healthtracker/users/acceptfriend/1/2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -191,7 +191,7 @@ public class UserControllerTest {
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
-        when(friendService.declineFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+        when(friendService.declineFriendRelation(isA(Integer.class), isA(Integer.class))).thenReturn(friend);
 
         mockMvc.perform(post("/healthtracker/users/declinefriend/1/2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -213,7 +213,7 @@ public class UserControllerTest {
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
-        when(friendService.getFriendRelation(isA(Integer.class),isA(Integer.class))).thenReturn(friend);
+        when(friendService.getFriendRelation(isA(Integer.class), isA(Integer.class))).thenReturn(friend);
 
         mockMvc.perform(get("/healthtracker/users/getfriend/1/2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
