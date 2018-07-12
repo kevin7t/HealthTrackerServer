@@ -1,21 +1,17 @@
 package com.kevin.healthtracker.server.controller;
 
-import java.util.List;
-
+import com.kevin.healthtracker.datamodels.Friend;
+import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.server.service.FriendServiceImpl;
+import com.kevin.healthtracker.server.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
-import com.kevin.healthtracker.datamodels.User;
-import com.kevin.healthtracker.server.service.FriendServiceImpl;
-import com.kevin.healthtracker.server.service.UserServiceImpl;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "healthtracker/users")
@@ -57,4 +53,40 @@ public class UserController {
     public void delete(@PathVariable("id") int id) {
         userService.deleteById(id);
     }
+
+    @RequestMapping(value = "/addfriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> addFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.addFriendRelation(user1, user2), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/acceptfriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> acceptFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.acceptFriendRelation(user1, user2), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/declinefriend/{user1}/{user2}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> declineFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.declineFriendRelation(user1, user2), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/deletefriend/{user1}/{user2}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void deleteFriend(@PathVariable int user1, @PathVariable int user2) {
+        friendService.deleteFriendRelation(user1, user2);
+    }
+
+    @RequestMapping(value = "/getoutboundrequests/{user}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Friend>> getOutboundRequests(@PathVariable int user) {
+        return new ResponseEntity<>(friendService.getOutboundPendingRequestsForUser(user), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getinboundrequests/{user}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Friend>> getInboundRequests(@PathVariable int user) {
+        return new ResponseEntity<>(friendService.getInboundPendingRequestsForUser(user), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getfriend/{user1}/{user2}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Friend> getFriend(@PathVariable int user1, @PathVariable int user2) {
+        return new ResponseEntity<>(friendService.getFriendRelation(user1, user2), HttpStatus.OK);
+    }
+
 }

@@ -98,11 +98,12 @@ public class UserFeedServiceImpl implements UserFeedService {
     @Override
     public void removeLikeFromStatus(int statusId, int userId) {
         //TODO: replace by creating the key using getuser/getstatus method
-        likeDao.getLikesFromStatus(getStatusById(statusId)).forEach(like -> {
-            if (like.getUser().getId() == (userId)) {
-                likeDao.removeLike(like);
-            }
-        });
+//        likeDao.getLikesFromStatus(getStatusById(statusId)).forEach(like -> {
+//            if (like.getUser().getId() == (userId)) {
+//                likeDao.removeLike(like);
+//            }
+//        });
+        likeDao.removeLike(getUserById(userId), getStatusById(statusId));
     }
 
     @Override
