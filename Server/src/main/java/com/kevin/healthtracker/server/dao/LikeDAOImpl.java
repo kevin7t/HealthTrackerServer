@@ -24,7 +24,8 @@ public class LikeDAOImpl implements LikeDAO {
     @Override
     public Like addLike(Like like) {
         try {
-            entityManager.persist(like);
+            //Merge used as it would have to check if it already exists in this case, there can only be one like per status from a user
+            entityManager.merge(like);
             entityManager.flush();
             return like;
         } catch (PersistenceException e) {
@@ -35,12 +36,12 @@ public class LikeDAOImpl implements LikeDAO {
 
     @Override
     public void removeLike(Like like) {
-        entityManager.remove(like);
+        entityManager.remove(entityManager.merge(like));
     }
 
     @Override
     public void removeLike(User user, Status status) {
-        String query = ("DELETE l FROM Like l WHERE l.user = ? AND l.status = ?");
+        String query = ("DELETE FROM Like l WHERE l.user = ?0 AND l.status = ?1");
         entityManager.createQuery(query).setParameter(0, user).setParameter(1, status).executeUpdate();
     }
 

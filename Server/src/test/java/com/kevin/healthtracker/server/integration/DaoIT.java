@@ -50,12 +50,23 @@ public class DaoIT {
     }
 
     @Test
-    public void getStoredUser() {
+    public void getStoredUserById() {
         User newUser = new User();
         newUser.setUserName("Test");
         newUser.setPassword("Password");
         newUser = userDAO.createUser(newUser);
         User retrievedUser = userDAO.getById(newUser.getId());
+        assertEquals(retrievedUser.getId(), newUser.getId());
+        assertEquals(retrievedUser.getUserName(), newUser.getUserName());
+    }
+
+    @Test
+    public void getStoredUserByUsername() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+        User retrievedUser = userDAO.getByUserName("Test");
         assertEquals(retrievedUser.getId(), newUser.getId());
         assertEquals(retrievedUser.getUserName(), newUser.getUserName());
     }
@@ -176,20 +187,49 @@ public class DaoIT {
         newUser.setPassword("Password");
         newUser = userDAO.createUser(newUser);
 
-//        Status newStatus = new Status();
-//        newStatus.setType(StatusType.BIKE);
-//        newStatus.setUser(newUser);
-//        newStatus.setContent("Test content");
-//        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
-//        newStatus = statusDAO.createStatus(newStatus);
+        Status newStatus = new Status();
+        newStatus.setType(StatusType.BIKE);
+        newStatus.setUser(newUser);
+        newStatus.setContent("Test content");
+        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newStatus = statusDAO.createStatus(newStatus);
 
         Like like = new Like();
         like.setUser(newUser);
-//        like.setStatus(newStatus);
+        like.setStatus(newStatus);
+        like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        Like newLike = likeDAO.addLike(like);
+
+        assertEquals(newLike.getStatus(), newStatus);
+        assertEquals(newLike.getCreatedAt(), like.getCreatedAt());
+        assertEquals(newLike.getUser(), newUser);
+
+    }
+
+    @Test
+    public void removeLikeFromStatus() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        Status newStatus = new Status();
+        newStatus.setType(StatusType.BIKE);
+        newStatus.setUser(newUser);
+        newStatus.setContent("Test content");
+        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newStatus = statusDAO.createStatus(newStatus);
+
+        Like like = new Like();
+        like.setUser(newUser);
+        like.setStatus(newStatus);
         like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         like = likeDAO.addLike(like);
+        int id = like.getId();
+        likeDAO.removeLike(newUser, newStatus);
 
-        //TODO: Figure out why detatch entity errors when using like dao
+        assertEquals(likeDAO.getLikesFromStatus(newStatus).isEmpty(), true);
+
 
     }
 }

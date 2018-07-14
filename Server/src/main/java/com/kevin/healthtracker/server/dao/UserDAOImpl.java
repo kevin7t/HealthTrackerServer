@@ -1,20 +1,19 @@
 package com.kevin.healthtracker.server.dao;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.interfaces.UserDAO;
 import com.kevin.healthtracker.server.exception.DuplicateUserException;
 import com.kevin.healthtracker.server.util.Encrypter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -72,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT u FROM User u WHERE u.userName = ?0";
         return (User) entityManager.createQuery(query)
                 .setParameter(0, userName)
-                .getResultList().get(0);
+                .getSingleResult();
     }
 
     @Override
