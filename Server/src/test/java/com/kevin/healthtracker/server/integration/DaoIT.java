@@ -1,11 +1,9 @@
 package com.kevin.healthtracker.server.integration;
 
-import com.kevin.healthtracker.datamodels.Like;
-import com.kevin.healthtracker.datamodels.Status;
-import com.kevin.healthtracker.datamodels.StatusType;
-import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.datamodels.*;
 import com.kevin.healthtracker.server.Application;
 import com.kevin.healthtracker.server.dao.LikeDAOImpl;
+import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import org.junit.Test;
@@ -36,6 +34,9 @@ public class DaoIT {
 
     @Autowired
     LikeDAOImpl likeDAO;
+
+    @Autowired
+    ReplyDAOImpl replyDAO;
 
 
     @Test
@@ -111,9 +112,9 @@ public class DaoIT {
         newStatus.setUser(newUser);
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
-        newStatus = statusDAO.createStatus(newStatus);
+        Status createdStatus = statusDAO.createStatus(newStatus);
 
-        assertEquals(newStatus.getContent(), "Test content");
+        assertEquals(createdStatus.getContent(), "Test content");
     }
 
 
@@ -198,11 +199,12 @@ public class DaoIT {
         like.setUser(newUser);
         like.setStatus(newStatus);
         like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
-        Like newLike = likeDAO.addLike(like);
 
-        assertEquals(newLike.getStatus(), newStatus);
-        assertEquals(newLike.getCreatedAt(), like.getCreatedAt());
-        assertEquals(newLike.getUser(), newUser);
+        Like createdLike = likeDAO.addLike(like);
+
+        assertEquals(createdLike.getStatus(), newStatus);
+        assertEquals(createdLike.getCreatedAt(), like.getCreatedAt());
+        assertEquals(createdLike.getUser(), newUser);
 
     }
 
@@ -229,7 +231,84 @@ public class DaoIT {
         likeDAO.removeLike(newUser, newStatus);
 
         assertEquals(likeDAO.getLikesFromStatus(newStatus).isEmpty(), true);
+    }
 
+    @Test
+    public void createReplyToStatus() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
 
+        Status newStatus = new Status();
+        newStatus.setType(StatusType.BIKE);
+        newStatus.setUser(newUser);
+        newStatus.setContent("Test content");
+        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newStatus = statusDAO.createStatus(newStatus);
+
+        Reply newReply = new Reply();
+        newReply.setUser(newUser);
+        newReply.setStatus(newStatus);
+        newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newReply.setContent("This is a reply");
+
+        Reply createdReply = replyDAO.createReply(newReply);
+
+        assertEquals(createdReply.getContent(), newReply.getContent());
+
+    }
+
+    @Test
+    public void getRepliesFromStatus() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        Status newStatus = new Status();
+        newStatus.setType(StatusType.BIKE);
+        newStatus.setUser(newUser);
+        newStatus.setContent("Test content");
+        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newStatus = statusDAO.createStatus(newStatus);
+
+        Reply newReply = new Reply();
+        newReply.setUser(newUser);
+        newReply.setStatus(newStatus);
+        newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newReply.setContent("This is a reply");
+        newReply = replyDAO.createReply(newReply);
+
+        List<Reply> retrievedReplyFromStatus = replyDAO.getRepliesFromStatus(newStatus);
+
+        assertEquals(retrievedReplyFromStatus.get(0).getContent(), newReply.getContent());
+
+    }
+
+    @Test
+    public void deleteReplyFromStatus() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        Status newStatus = new Status();
+        newStatus.setType(StatusType.BIKE);
+        newStatus.setUser(newUser);
+        newStatus.setContent("Test content");
+        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newStatus = statusDAO.createStatus(newStatus);
+
+        Reply newReply = new Reply();
+        newReply.setUser(newUser);
+        newReply.setStatus(newStatus);
+        newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newReply.setContent("This is a reply");
+        newReply = replyDAO.createReply(newReply);
+
+        replyDAO.deleteReply(newReply);
+
+        assertEquals(replyDAO.getRepliesFromStatus(newStatus).size(), 0);
     }
 }
