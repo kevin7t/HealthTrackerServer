@@ -22,7 +22,7 @@ public class FriendDaoImpl implements FriendDao {
 
     @Override
     public Friend addFriendRelation(Friend friend) {
-        entityManager.persist(friend);
+        entityManager.persist(entityManager.merge(friend));
         return friend;
     }
 
