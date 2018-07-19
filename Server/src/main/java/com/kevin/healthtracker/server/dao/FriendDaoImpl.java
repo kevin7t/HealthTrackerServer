@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -33,13 +34,7 @@ public class FriendDaoImpl implements FriendDao {
 
     @Override
     public void deleteFriendRelation(Friend friend) {
-        entityManager.remove(friend);
-    }
-
-    @Override
-    public void deleteFriendRelation(User user1, User user2) {
-        String query = ("DELETE FROM Friend f WHERE f.user1 = ? AND f.user2 = ?");
-        entityManager.createQuery(query).setParameter(0, user1).setParameter(1, user2).executeUpdate();
+        entityManager.remove(entityManager.merge(friend));
     }
 
     @Override
@@ -50,18 +45,24 @@ public class FriendDaoImpl implements FriendDao {
     @Override
     public List<Friend> getFriendRelationList(User user) {
         String query = ("SELECT f FROM Friend f WHERE f.user1 = ?0");
-        return entityManager.createQuery(query).setParameter(0, user).getResultList();
+        List<Friend> sentList = entityManager.createQuery(query).setParameter(0, user).getResultList();
+        query = ("SELECT f FROM Friend f WHERE f.user2 = ?0");
+        List<Friend> receivedList = entityManager.createQuery(query).setParameter(0, user).getResultList();
+        List<Friend> combinedList = new ArrayList<>();
+        combinedList.addAll(sentList);
+        combinedList.addAll(receivedList);
+        return combinedList;
     }
 
     @Override
-    public List<Friend> getUser2Relations(User user) {
-        String query = ("SELECT f FROM Friend f WHERE f.user2 = ?");
+    public List<Friend> getReceivedFriendRequestsForUser(User user) {
+        String query = ("SELECT f FROM Friend f WHERE f.user2 = ?0");
         return entityManager.createQuery(query).setParameter(0, user).getResultList();
     }
 
     @Override
     public List<Friend> getFriendActivityByUserActionId(int userActionId) {
-        String query = ("SELECT f FROM Friend f WHERE f.userActionId = ?");
+        String query = ("SELECT f FROM Friend f WHERE f.userActionId = ?0");
         return entityManager.createQuery(query).setParameter(0, userActionId).getResultList();
     }
 }

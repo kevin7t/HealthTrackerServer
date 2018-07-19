@@ -366,26 +366,141 @@ public class DaoIT {
 
     @Test
     public void updateFriend() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
 
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(FriendStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+        assertEquals(friendRelation.getFriendStatus(), FriendStatus.PENDING);
+
+        friendRelation.setFriendStatus(FriendStatus.ACCEPTED);
+        friendRelation = friendDAO.updateFriendRelation(friendRelation);
+        assertEquals(friendRelation.getFriendStatus(), FriendStatus.ACCEPTED);
     }
 
     @Test
     public void deleteFriend() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(FriendStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+        assertEquals(friendRelation.getFriendStatus(), FriendStatus.PENDING);
+
+        friendDAO.deleteFriendRelation(friendRelation);
+        assertNull(friendDAO.getFriendRelation(new UserUserKey(newUser, newUser2)));
 
     }
 
     @Test
-    public void getFriendListOfUser() {
+    public void getAllRelationsOfUser() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        User newUser3 = new User();
+        newUser3.setUserName("Test3");
+        newUser3.setPassword("Password");
+        newUser3 = userDAO.createUser(newUser3);
+
+        //Initiated by user 2 to user 1
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser2);
+        friendRelation.setUser2(newUser);
+        friendRelation.setUserActionId(newUser2.getId());
+        friendRelation.setFriendStatus(FriendStatus.ACCEPTED);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+
+        //Initiated by user 1 to user 3
+        Friend friendRelation2 = new Friend();
+        friendRelation2.setUser1(newUser);
+        friendRelation2.setUser2(newUser3);
+        friendRelation2.setUserActionId(newUser.getId());
+        friendRelation2.setFriendStatus(FriendStatus.ACCEPTED);
+        friendRelation2 = friendDAO.addFriendRelation(friendRelation2);
+
+        //This tests that the DAO returns all relations regardless of direction, in the service it will be tested for just friends of user
+        List<Friend> friendListForUser1 = friendDAO.getFriendRelationList(newUser);
+        assertEquals(friendListForUser1.size(), 2);
 
     }
 
     @Test
-    public void getRequestsSentByUser1() {
+    public void getRelationsForReceivingUser() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
 
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(FriendStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+        assertEquals(friendRelation.getFriendStatus(), FriendStatus.PENDING);
+
+        List<Friend> requestsFromUser1 = friendDAO.getReceivedFriendRequestsForUser(newUser2);
+        assertEquals(requestsFromUser1.get(0).getUser1().getUserName(), newUser.getUserName());
     }
+
 
     @Test
-    public void getRequestsReceivedByUser2() {
+    public void getRelationsForInitiatingUser() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
 
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(FriendStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+        assertEquals(friendRelation.getFriendStatus(), FriendStatus.PENDING);
+
+        List<Friend> requestsFromUser1 = friendDAO.getFriendActivityByUserActionId(newUser.getId());
+        assertEquals(requestsFromUser1.get(0).getUserActionId(), newUser.getId());
     }
+
 }

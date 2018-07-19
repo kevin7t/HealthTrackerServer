@@ -20,11 +20,11 @@ public class Friend {
     private int Id;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user1;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user2;
 
     @Column(name = "friendStatus", nullable = false)

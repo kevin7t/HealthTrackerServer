@@ -2,6 +2,7 @@ package com.kevin.healthtracker.server.service;
 
 import com.kevin.healthtracker.datamodels.Friend;
 import com.kevin.healthtracker.datamodels.FriendStatus;
+import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
 import com.kevin.healthtracker.server.dao.FriendDaoImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
@@ -9,6 +10,7 @@ import com.kevin.healthtracker.server.service.interfaces.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +70,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<Friend> getInboundPendingRequestsForUser(int user) {
-        List<Friend> friendList = friendDao.getUser2Relations(userDAO.getById(user));
+        List<Friend> friendList = friendDao.getReceivedFriendRequestsForUser(userDAO.getById(user));
         friendList = friendList.stream()
                 .filter(friend -> friend.getFriendStatus().equals(FriendStatus.PENDING))
                 .collect(Collectors.toList());
@@ -85,8 +87,17 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<Friend> getFriendRelationList(int user1) {
-        return friendDao.getFriendRelationList(userDAO.getById(user1));
+    public List<User> getFriendRelationList(int user1) {
+        List<Friend> allRelations = friendDao.getFriendRelationList(userDAO.getById(user1));
+        List<User> friends = new ArrayList<>();
+        allRelations.forEach(r -> {
+            if (r.getUser1().getId() == (user1)) {
+                friends.add(r.getUser2());
+            } else {
+                friends.add(r.getUser1());
+            }
+        });
+        return friends;
     }
 
     private UserUserKey getUserKey(int user1, int user2) {
