@@ -23,6 +23,7 @@ public class FriendDaoImpl implements FriendDao {
 
     @Override
     public Friend addFriendRelation(Friend friend) {
+        //TODO Issue here is that using merge avoids detatched entity issues, but allows it to re-write the relationship from user2, will have to check if it already exists before calling persist
         entityManager.persist(entityManager.merge(friend));
         return friend;
     }

@@ -84,6 +84,11 @@ public class UserController {
         return new ResponseEntity<>(friendService.getInboundPendingRequestsForUser(user), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/getallrelations/{user}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<User>> getAllRelations(@PathVariable int user) {
+        return new ResponseEntity<>(friendService.getFriendRelationList(user), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/getfriend/{user1}/{user2}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Friend> getFriend(@PathVariable int user1, @PathVariable int user2) {
         return new ResponseEntity<>(friendService.getFriendRelation(user1, user2), HttpStatus.OK);
