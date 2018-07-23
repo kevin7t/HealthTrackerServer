@@ -365,7 +365,7 @@ public class DaoIT {
     }
 
     @Test
-    public void updateFriend() {
+    public void acceptFriend() {
         User newUser = new User();
         newUser.setUserName("Test");
         newUser.setPassword("Password");
@@ -454,7 +454,7 @@ public class DaoIT {
     }
 
     @Test
-    public void getRelationsForReceivingUser() {
+    public void getIncomingFriendRequests() {
         User newUser = new User();
         newUser.setUserName("Test");
         newUser.setPassword("Password");
@@ -473,13 +473,13 @@ public class DaoIT {
         friendRelation = friendDAO.addFriendRelation(friendRelation);
         assertEquals(friendRelation.getFriendStatus(), FriendStatus.PENDING);
 
-        List<Friend> requestsFromUser1 = friendDAO.getReceivedFriendRequestsForUser(newUser2);
+        List<Friend> requestsFromUser1 = friendDAO.getIncomingRequestsForUser(newUser2);
         assertEquals(requestsFromUser1.get(0).getUser1().getUserName(), newUser.getUserName());
     }
 
 
     @Test
-    public void getRelationsForInitiatingUser() {
+    public void getOutgoingFriendRequests() {
         User newUser = new User();
         newUser.setUserName("Test");
         newUser.setPassword("Password");
@@ -499,7 +499,7 @@ public class DaoIT {
         friendRelation = friendDAO.addFriendRelation(friendRelation);
         assertEquals(friendRelation.getFriendStatus(), FriendStatus.PENDING);
 
-        List<Friend> requestsFromUser1 = friendDAO.getFriendActivityByUserActionId(newUser.getId());
+        List<Friend> requestsFromUser1 = friendDAO.getOutgoingRequestsFromUser(newUser.getId());
         assertEquals(requestsFromUser1.get(0).getUserActionId(), newUser.getId());
     }
 

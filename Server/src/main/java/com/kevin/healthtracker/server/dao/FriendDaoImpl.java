@@ -23,8 +23,12 @@ public class FriendDaoImpl implements FriendDao {
 
     @Override
     public Friend addFriendRelation(Friend friend) {
-        //TODO Issue here is that using merge avoids detatched entity issues, but allows it to re-write the relationship from user2, will have to check if it already exists before calling persist
-        entityManager.persist(entityManager.merge(friend));
+        if (!checkIfAlreadyExists(friend)) {
+            log.info("User does not exist, creating new user");
+            entityManager.persist(entityManager.merge(friend));
+        } else {
+            log.info("User already exists, no changes done");
+        }
         return friend;
     }
 
@@ -56,14 +60,24 @@ public class FriendDaoImpl implements FriendDao {
     }
 
     @Override
-    public List<Friend> getReceivedFriendRequestsForUser(User user) {
+    public List<Friend> getIncomingRequestsForUser(User user) {
         String query = ("SELECT f FROM Friend f WHERE f.user2 = ?0");
         return entityManager.createQuery(query).setParameter(0, user).getResultList();
     }
 
     @Override
-    public List<Friend> getFriendActivityByUserActionId(int userActionId) {
+    public List<Friend> getOutgoingRequestsFromUser(int userActionId) {
         String query = ("SELECT f FROM Friend f WHERE f.userActionId = ?0");
         return entityManager.createQuery(query).setParameter(0, userActionId).getResultList();
+    }
+
+    private boolean checkIfAlreadyExists(Friend friend) {
+        Friend storedRelation = getFriendRelation(new UserUserKey(friend.getUser1(), friend.getUser2()));
+        if (storedRelation != null && storedRelation.getUser1().getId() == friend.getUser1().getId() &&
+                storedRelation.getUser2().getId() == friend.getUser2().getId()) {
+            return true;
+        }
+
+        return false;
     }
 }

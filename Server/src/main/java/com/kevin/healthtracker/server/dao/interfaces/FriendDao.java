@@ -17,8 +17,8 @@ public interface FriendDao {
 
     List<Friend> getFriendRelationList(User user);
 
-    List<Friend> getReceivedFriendRequestsForUser(User user);
+    List<Friend> getIncomingRequestsForUser(User user);
 
-    List<Friend> getFriendActivityByUserActionId(int userId);
+    List<Friend> getOutgoingRequestsFromUser(int userId);
 
 }
