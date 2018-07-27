@@ -1,18 +1,11 @@
 package com.kevin.healthtracker.datamodels;
 
-import java.sql.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "statuses")
@@ -25,7 +18,7 @@ public class Status {
     @Column(name = "id")
     private int Id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user;
 
     @Column(name = "created_at", nullable = false)

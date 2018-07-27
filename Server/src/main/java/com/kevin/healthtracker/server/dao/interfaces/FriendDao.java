@@ -13,14 +13,12 @@ public interface FriendDao {
 
     void deleteFriendRelation(Friend friend);
 
-    void deleteFriendRelation(User user1, User user2);
-
     Friend getFriendRelation(UserUserKey key);
 
     List<Friend> getFriendRelationList(User user);
 
-    List<Friend> getUser2Relations(User user);
+    List<Friend> getIncomingRequestsForUser(User user);
 
-    List<Friend> getFriendActivityByUserActionId(int userId);
+    List<Friend> getOutgoingRequestsFromUser(int userId);
 
 }

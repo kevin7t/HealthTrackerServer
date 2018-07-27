@@ -1,14 +1,5 @@
 package com.kevin.healthtracker.server.service;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Reply;
 import com.kevin.healthtracker.datamodels.Status;
@@ -22,6 +13,14 @@ import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.exception.DuplicateLikeException;
 import com.kevin.healthtracker.server.service.interfaces.UserFeedService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserFeedServiceImpl implements UserFeedService {
@@ -49,11 +48,6 @@ public class UserFeedServiceImpl implements UserFeedService {
         status = statusDAO.createStatus(status);
         //Map Entity back to DTO
         return modelMapper.map(status, StatusDTO.class);
-    }
-
-    @Override
-    public StatusDTO updateStatus(StatusDTO statusDTO) {
-        return null;
     }
 
     @Override
@@ -97,12 +91,6 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public void removeLikeFromStatus(int statusId, int userId) {
-        //TODO: replace by creating the key using getuser/getstatus method
-//        likeDao.getLikesFromStatus(getStatusById(statusId)).forEach(like -> {
-//            if (like.getUser().getId() == (userId)) {
-//                likeDao.removeLike(like);
-//            }
-//        });
         likeDao.removeLike(getUserById(userId), getStatusById(statusId));
     }
 

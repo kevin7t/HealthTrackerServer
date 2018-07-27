@@ -1,21 +1,5 @@
 package com.kevin.healthtracker.server.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.when;
-
-import java.sql.Date;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
-
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.StatusType;
 import com.kevin.healthtracker.datamodels.User;
@@ -24,8 +8,22 @@ import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
-public class UserFeedServiceImplTest {
+import java.sql.Date;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.when;
+
+public class UserFeedServiceTest {
 
     ModelMapper modelMapper = new ModelMapper();
     @Mock
@@ -36,6 +34,7 @@ public class UserFeedServiceImplTest {
     ReplyDAOImpl replyDAO;
     @Mock
     UserDAOImpl userDAO;
+
     @InjectMocks
     private UserFeedServiceImpl userFeedService = new UserFeedServiceImpl();
 
@@ -52,26 +51,18 @@ public class UserFeedServiceImplTest {
         StatusDTO actualStatus = userFeedService.createStatus(expectedStatus);
 
         assertEquals(expectedStatus, actualStatus);
-
-    }
-
-    @Test
-    public void updateStatus() {
     }
 
     @Test
     public void getStatusesByUserId() {
-        List<Status> expectedStatus = Arrays.asList(getStatus());
+        List<StatusDTO> expectedStatus = Collections.singletonList(getStatusDTO());
 
-        when(statusDAO.getStatusesByUser(isA(User.class), isA(Integer.class))).thenReturn(expectedStatus);
+        when(statusDAO.getStatusesByUser(isA(User.class), isA(Integer.class))).thenReturn(Collections.singletonList(getStatus()));
         when(userDAO.getById(isA(Integer.class))).thenReturn(getUser());
-        List<Status> actualStatus = userFeedService.getStatusesByUserId(1, 1)
-                .stream().map(statusDTO -> modelMapper.map(statusDTO, Status.class)).collect(Collectors.toList());
-        assertEquals(expectedStatus, actualStatus);
-    }
 
-    @Test
-    public void deleteStatusById() {
+        List<StatusDTO> actualStatus = userFeedService.getStatusesByUserId(1, 1);
+
+        assertEquals(expectedStatus, actualStatus);
     }
 
     @Test
@@ -101,11 +92,12 @@ public class UserFeedServiceImplTest {
     private StatusDTO getStatusDTO() {
         StatusDTO expectedStatus = new StatusDTO();
         expectedStatus.setId(1);
+        expectedStatus.setUserId(1);
         expectedStatus.setType(StatusType.BIKE);
         expectedStatus.setCreatedAt(new Date(2018, 04, 23));
+        expectedStatus.setContent("Test");
         expectedStatus.setLikeCount(0);
         expectedStatus.setReplyCount(0);
-        expectedStatus.setUserId(1);
         return expectedStatus;
     }
 
@@ -115,6 +107,9 @@ public class UserFeedServiceImplTest {
         status.setUser(getUser());
         status.setType(StatusType.BIKE);
         status.setContent("Test");
+        status.setCreatedAt(new Date(2018, 04, 23));
+        status.setLikeCount(0);
+        status.setReplyCount(0);
         return status;
     }
 
