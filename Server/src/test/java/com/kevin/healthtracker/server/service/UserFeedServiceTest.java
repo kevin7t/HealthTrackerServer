@@ -16,9 +16,8 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
 import java.sql.Date;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.isA;
@@ -52,26 +51,18 @@ public class UserFeedServiceTest {
         StatusDTO actualStatus = userFeedService.createStatus(expectedStatus);
 
         assertEquals(expectedStatus, actualStatus);
-
-    }
-
-    @Test
-    public void updateStatus() {
     }
 
     @Test
     public void getStatusesByUserId() {
-        List<Status> expectedStatus = Arrays.asList(getStatus());
+        List<StatusDTO> expectedStatus = Collections.singletonList(getStatusDTO());
 
-        when(statusDAO.getStatusesByUser(isA(User.class), isA(Integer.class))).thenReturn(expectedStatus);
+        when(statusDAO.getStatusesByUser(isA(User.class), isA(Integer.class))).thenReturn(Collections.singletonList(getStatus()));
         when(userDAO.getById(isA(Integer.class))).thenReturn(getUser());
-        List<Status> actualStatus = userFeedService.getStatusesByUserId(1, 1)
-                .stream().map(statusDTO -> modelMapper.map(statusDTO, Status.class)).collect(Collectors.toList());
-        assertEquals(expectedStatus, actualStatus);
-    }
 
-    @Test
-    public void deleteStatusById() {
+        List<StatusDTO> actualStatus = userFeedService.getStatusesByUserId(1, 1);
+
+        assertEquals(expectedStatus, actualStatus);
     }
 
     @Test
@@ -101,11 +92,12 @@ public class UserFeedServiceTest {
     private StatusDTO getStatusDTO() {
         StatusDTO expectedStatus = new StatusDTO();
         expectedStatus.setId(1);
+        expectedStatus.setUserId(1);
         expectedStatus.setType(StatusType.BIKE);
         expectedStatus.setCreatedAt(new Date(2018, 04, 23));
+        expectedStatus.setContent("Test");
         expectedStatus.setLikeCount(0);
         expectedStatus.setReplyCount(0);
-        expectedStatus.setUserId(1);
         return expectedStatus;
     }
 
@@ -115,6 +107,9 @@ public class UserFeedServiceTest {
         status.setUser(getUser());
         status.setType(StatusType.BIKE);
         status.setContent("Test");
+        status.setCreatedAt(new Date(2018, 04, 23));
+        status.setLikeCount(0);
+        status.setReplyCount(0);
         return status;
     }
 

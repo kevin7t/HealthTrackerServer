@@ -51,11 +51,6 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
-    public StatusDTO updateStatus(StatusDTO statusDTO) {
-        return null;
-    }
-
-    @Override
     public List<StatusDTO> getStatusesByUserId(int userId, int pageNumber) {
         return statusDAO.getStatusesByUser(userDAO.getById(userId), pageNumber)
                 .stream().map(status -> modelMapper.map(status, StatusDTO.class))

@@ -1,17 +1,15 @@
 package com.kevin.healthtracker.server.service.interfaces;
 
 
-import java.util.List;
-
 import com.kevin.healthtracker.datamodels.dto.LikeDTO;
 import com.kevin.healthtracker.datamodels.dto.ReplyDTO;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
 
+import java.util.List;
+
 public interface UserFeedService {
 
     StatusDTO createStatus(StatusDTO statusDTO);
-
-    StatusDTO updateStatus(StatusDTO statusDTO);
 
     List<StatusDTO> getStatusesByUserId(int userId, int pageNumber);
 
