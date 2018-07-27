@@ -4,7 +4,6 @@ import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.StatusType;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
-import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
@@ -28,8 +27,6 @@ public class UserFeedServiceTest {
     ModelMapper modelMapper = new ModelMapper();
     @Mock
     StatusDAOImpl statusDAO;
-    @Mock
-    LikeDAOImpl likeDAO;
     @Mock
     ReplyDAOImpl replyDAO;
     @Mock

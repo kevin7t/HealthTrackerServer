@@ -3,7 +3,10 @@ package com.kevin.healthtracker.server.integration;
 import com.kevin.healthtracker.datamodels.*;
 import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
 import com.kevin.healthtracker.server.Application;
-import com.kevin.healthtracker.server.dao.*;
+import com.kevin.healthtracker.server.dao.FriendDaoImpl;
+import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
+import com.kevin.healthtracker.server.dao.StatusDAOImpl;
+import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -29,9 +31,6 @@ public class DaoIT {
 
     @Autowired
     UserDAOImpl userDAO;
-
-    @Autowired
-    LikeDAOImpl likeDAO;
 
     @Autowired
     ReplyDAOImpl replyDAO;
@@ -203,22 +202,23 @@ public class DaoIT {
         newUser.setPassword("Password");
         newUser = userDAO.createUser(newUser);
 
+        Like like = new Like();
+        like.setUser(newUser);
+        like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
+        newStatus = statusDAO.addLikeToStatus(like, newStatus);
 
-        Like like = new Like();
-        like.setUser(newUser);
-        like.setStatus(newStatus);
-        like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
 
-        Like createdLike = likeDAO.addLike(like);
+        Like createdLike = statusDAO.getLikesFromStatus(newStatus).get(0);
 
-        assertEquals(createdLike.getStatus(), newStatus);
-        assertEquals(createdLike.getCreatedAt(), like.getCreatedAt());
+        assertEquals(createdLike.getStatus().getId(), newStatus.getId());
+        assertEquals(createdLike.getCreatedAt().toString(), like.getCreatedAt().toString());
         assertEquals(createdLike.getUser().getUserName(), newUser.getUserName());
 
     }
@@ -230,25 +230,21 @@ public class DaoIT {
         newUser.setPassword("Password");
         newUser = userDAO.createUser(newUser);
 
+        Like like = new Like();
+        like.setUser(newUser);
+        like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
+        newStatus = statusDAO.addLikeToStatus(like, newStatus);
 
-        Like like = new Like();
-        like.setUser(newUser);
-        like.setStatus(newStatus);
-        like.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
-        like = likeDAO.addLike(like);
+        statusDAO.removeLikeFromStatus(newUser, newStatus);
 
-        assertEquals(like.getUser(), newUser);
-        assertEquals(like.getStatus(), newStatus);
-
-        likeDAO.removeLike(newUser, newStatus);
-
-        assertEquals(likeDAO.getLikesFromStatus(newStatus).isEmpty(), true);
+        assertTrue(statusDAO.getLikesFromStatus(newStatus).isEmpty());
     }
 
     /*
@@ -437,7 +433,7 @@ public class DaoIT {
         friendRelation.setUser2(newUser);
         friendRelation.setUserActionId(newUser2.getId());
         friendRelation.setFriendStatus(FriendStatus.ACCEPTED);
-        friendRelation = friendDAO.addFriendRelation(friendRelation);
+        friendDAO.addFriendRelation(friendRelation);
 
         //Initiated by user 1 to user 3
         Friend friendRelation2 = new Friend();
@@ -445,7 +441,7 @@ public class DaoIT {
         friendRelation2.setUser2(newUser3);
         friendRelation2.setUserActionId(newUser.getId());
         friendRelation2.setFriendStatus(FriendStatus.ACCEPTED);
-        friendRelation2 = friendDAO.addFriendRelation(friendRelation2);
+        friendDAO.addFriendRelation(friendRelation2);
 
         //This tests that the DAO returns all relations regardless of direction, in the service it will be tested for just friends of user
         List<Friend> friendListForUser1 = friendDAO.getFriendRelationList(newUser);

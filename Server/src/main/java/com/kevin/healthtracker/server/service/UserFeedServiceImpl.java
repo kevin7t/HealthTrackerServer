@@ -7,7 +7,6 @@ import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.LikeDTO;
 import com.kevin.healthtracker.datamodels.dto.ReplyDTO;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
-import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
@@ -30,9 +29,6 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Autowired
     UserDAOImpl userDAO;
-
-    @Autowired
-    LikeDAOImpl likeDao;
 
     @Autowired
     ReplyDAOImpl replyDAO;
@@ -73,9 +69,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         like.setUser(getUserById(like.getUser().getId()));
 
         try {
-            status.setLikeCount(status.getLikeCount() + 1);
-            likeDao.addLike(like);
-            statusDAO.updateStatus(status);
+            statusDAO.addLikeToStatus(like, status);
         } catch (DuplicateLikeException e) {
             e.printStackTrace();
         }
@@ -84,14 +78,14 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public List<LikeDTO> getLikesFromStatus(int id) {
-        return likeDao.getLikesFromStatus(getStatusById(id))
+        return statusDAO.getLikesFromStatus(getStatusById(id))
                 .stream().map(like -> modelMapper.map(like, LikeDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void removeLikeFromStatus(int statusId, int userId) {
-        likeDao.removeLike(getUserById(userId), getStatusById(statusId));
+    public void removeLikeFromStatus(int userId, int statusId) {
+        statusDAO.removeLikeFromStatus(getUserById(userId), getStatusById(statusId));
     }
 
     @Override

@@ -1,15 +1,17 @@
 package com.kevin.healthtracker.datamodels;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name = "replies")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Reply {
@@ -22,7 +24,8 @@ public class Reply {
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
     private Status status;
 
     @ManyToOne
@@ -30,4 +33,9 @@ public class Reply {
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @Override
+    public String toString() {
+        return "Reply:[Status_id: " + status.getId() + ", User_id: " + user.getId() + ",CreatedAt: " + createdAt + ",Content: " + content + "]";
+    }
 }

@@ -23,7 +23,7 @@ public interface UserFeedService {
 
     void deleteReplyById(int replyId);
 
-    void removeLikeFromStatus(int statusId, int userId);
+    void removeLikeFromStatus(int userId, int statusId);
 
     void deleteStatusById(int id);
 
