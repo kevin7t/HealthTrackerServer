@@ -24,12 +24,12 @@ public class UserController {
     FriendServiceImpl friendService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<User> add(@RequestBody User user) {
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Boolean> authenticateUser(@RequestBody User user) {
+    public ResponseEntity<Boolean> loginUser(@RequestBody User user) {
         return new ResponseEntity<>(userService.authenticateUser(user), HttpStatus.ACCEPTED);
     }
 

@@ -46,6 +46,11 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public Friend acceptFriendRelation(int user1, int user2) {
+        if (user1 > user2) {
+            int temp = user1;
+            user1 = user2;
+            user2 = temp;
+        }
         Friend relation = getFriendRelation(user1, user2);
         relation.setFriendStatus(FriendStatus.ACCEPTED);
         return updateFriendRelation(relation);
@@ -53,6 +58,11 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public Friend declineFriendRelation(int user1, int user2) {
+        if (user1 > user2) {
+            int temp = user1;
+            user1 = user2;
+            user2 = temp;
+        }
         Friend relation = getFriendRelation(user1, user2);
         relation.setFriendStatus(FriendStatus.DECLINED);
         return updateFriendRelation(relation);
@@ -60,11 +70,21 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void deleteFriendRelation(int user1, int user2) {
+        if (user1 > user2) {
+            int temp = user1;
+            user1 = user2;
+            user2 = temp;
+        }
         friendDao.deleteFriendRelation(friendDao.getFriendRelation(getUserKey(user1, user2)));
     }
 
     @Override
     public Friend getFriendRelation(int user1, int user2) {
+        if (user1 > user2) {
+            int temp = user1;
+            user1 = user2;
+            user2 = temp;
+        }
         return friendDao.getFriendRelation(getUserKey(user1, user2));
     }
 

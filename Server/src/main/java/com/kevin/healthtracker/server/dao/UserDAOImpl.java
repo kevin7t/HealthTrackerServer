@@ -14,6 +14,7 @@ import javax.persistence.PersistenceException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Repository
@@ -26,7 +27,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> getAllUsers() {
         String query = "FROM User";
-        return (List<User>) entityManager.createQuery(query).getResultList();
+        List<User> users = entityManager.createQuery(query).getResultList();
+        return users.stream().map(user -> userWithoutPassword(user)).collect(Collectors.toList());
     }
 
     @Override
@@ -43,7 +45,8 @@ public class UserDAOImpl implements UserDAO {
             throw new DuplicateUserException(user.getUserName() + e.getMessage());
         }
         log.info("Created user with name:" + user.getUserName());
-        return user;
+
+        return userWithoutPassword(user);
     }
 
     @Override
@@ -58,12 +61,12 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         log.info("Updated user %d password", user.getId());
-        return updatedUser;
+        return userWithoutPassword(user);
     }
 
     @Override
     public User getById(int id) {
-        return entityManager.find(User.class,id);
+        return userWithoutPassword(entityManager.find(User.class, id));
     }
 
     @Override
@@ -78,6 +81,11 @@ public class UserDAOImpl implements UserDAO {
     public void deleteById(int id) {
         entityManager.remove(getById(id));
         log.info("Deleted user with id:" + id);
+    }
+
+    private User userWithoutPassword(User user) {
+        user.setPassword(null);
+        return user;
     }
 
 }

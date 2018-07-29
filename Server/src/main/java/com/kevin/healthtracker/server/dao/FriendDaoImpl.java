@@ -24,10 +24,10 @@ public class FriendDaoImpl implements FriendDao {
     @Override
     public Friend addFriendRelation(Friend friend) {
         if (!checkIfAlreadyExists(friend)) {
-            log.info("User does not exist, creating new user");
+            log.info("Friend does not exist, creating new friend");
             entityManager.persist(entityManager.merge(friend));
         } else {
-            log.info("User already exists, no changes done");
+            log.info("Friend already exists, no changes done");
         }
         return friend;
     }
@@ -73,11 +73,8 @@ public class FriendDaoImpl implements FriendDao {
 
     private boolean checkIfAlreadyExists(Friend friend) {
         Friend storedRelation = getFriendRelation(new UserUserKey(friend.getUser1(), friend.getUser2()));
-        if (storedRelation != null && storedRelation.getUser1().getId() == friend.getUser1().getId() &&
-                storedRelation.getUser2().getId() == friend.getUser2().getId()) {
-            return true;
-        }
+        return storedRelation != null && storedRelation.getUser1().getId() == friend.getUser1().getId() &&
+                storedRelation.getUser2().getId() == friend.getUser2().getId();
 
-        return false;
     }
 }

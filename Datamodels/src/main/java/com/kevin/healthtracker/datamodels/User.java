@@ -1,17 +1,11 @@
 package com.kevin.healthtracker.datamodels;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -37,7 +31,8 @@ public class User {
     @Column(name = "hash", nullable = false)
     private byte[] hash;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //The reasoning password is not write only is because it is needed from the user
+    //therefore it must be able to write and read from it
     @Transient
     private String password;
 
