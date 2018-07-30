@@ -4,7 +4,6 @@ import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.StatusType;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
-import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import org.junit.Before;
@@ -25,10 +24,10 @@ import static org.mockito.Mockito.when;
 public class UserFeedServiceTest {
 
     ModelMapper modelMapper = new ModelMapper();
+
     @Mock
     StatusDAOImpl statusDAO;
-    @Mock
-    ReplyDAOImpl replyDAO;
+
     @Mock
     UserDAOImpl userDAO;
 

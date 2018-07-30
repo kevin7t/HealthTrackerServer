@@ -7,7 +7,6 @@ import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.LikeDTO;
 import com.kevin.healthtracker.datamodels.dto.ReplyDTO;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
-import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.exception.DuplicateLikeException;
@@ -29,9 +28,6 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Autowired
     UserDAOImpl userDAO;
-
-    @Autowired
-    ReplyDAOImpl replyDAO;
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -55,7 +51,7 @@ public class UserFeedServiceImpl implements UserFeedService {
 
     @Override
     public void deleteStatusById(int id) {
-        statusDAO.deleteById(id);
+        statusDAO.deleteStatusById(id);
     }
 
     @Override
@@ -96,21 +92,21 @@ public class UserFeedServiceImpl implements UserFeedService {
         reply.setCreatedAt(currentTime());
         reply.setStatus(getStatusById(reply.getStatus().getId()));
         reply.setUser(getUserById(reply.getUser().getId()));
-        return modelMapper.map(replyDAO.createReply(reply), ReplyDTO.class);
+        return modelMapper.map(statusDAO.addReplyToStatus(reply, status), ReplyDTO.class);
     }
 
     @Override
     public List<ReplyDTO> getRepliesFromStatus(int id) {
-        return replyDAO.getRepliesFromStatus(getStatusById(id))
+        return statusDAO.getRepliesFromStatus(getStatusById(id))
                 .stream().map(reply -> modelMapper.map(reply, ReplyDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void deleteReplyById(int id) {
-        Status status = getStatusById(getReplyById(id).getStatus().getId());
-        status.setReplyCount(status.getReplyCount() - 1);
-        replyDAO.deleteReply(getReplyById(id));
+        Reply reply = getReplyById(id);
+        Status status = getStatusById(reply.getStatus().getId());
+        statusDAO.deleteReplyFromStatus(reply, status);
     }
 
     private Date currentTime() {
@@ -118,7 +114,7 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     private Status getStatusById(int id) {
-        return statusDAO.getById(id);
+        return statusDAO.getStatusById(id);
     }
 
     private User getUserById(int id) {
@@ -126,6 +122,6 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     private Reply getReplyById(int id) {
-        return replyDAO.getById(id);
+        return statusDAO.getReplyById(id);
     }
 }

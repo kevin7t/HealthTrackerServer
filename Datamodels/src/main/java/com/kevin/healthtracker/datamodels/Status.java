@@ -47,6 +47,7 @@ public class Status {
             orphanRemoval = true
     )
     private List<Like> likes = new ArrayList<>();
+
     @OneToMany(
             mappedBy = "status",
             cascade = CascadeType.ALL,

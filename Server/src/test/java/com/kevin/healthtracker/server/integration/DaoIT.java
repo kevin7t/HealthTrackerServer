@@ -4,7 +4,6 @@ import com.kevin.healthtracker.datamodels.*;
 import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
 import com.kevin.healthtracker.server.Application;
 import com.kevin.healthtracker.server.dao.FriendDaoImpl;
-import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
 import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import org.junit.Test;
@@ -31,9 +30,6 @@ public class DaoIT {
 
     @Autowired
     UserDAOImpl userDAO;
-
-    @Autowired
-    ReplyDAOImpl replyDAO;
 
     @Autowired
     FriendDaoImpl friendDAO;
@@ -136,7 +132,7 @@ public class DaoIT {
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
-        Status retrievedStatus = statusDAO.getById(newStatus.getId());
+        Status retrievedStatus = statusDAO.getStatusById(newStatus.getId());
 
         assertEquals(retrievedStatus.getContent(), newStatus.getContent());
         assertEquals(retrievedStatus.getUser().getUserName(), newUser.getUserName());
@@ -187,9 +183,9 @@ public class DaoIT {
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
-        statusDAO.deleteById(newStatus.getId());
+        statusDAO.deleteStatusById(newStatus.getId());
 
-        assertNull(statusDAO.getById(newStatus.getId()));
+        assertNull(statusDAO.getStatusById(newStatus.getId()));
     }
 
     /*
@@ -215,7 +211,7 @@ public class DaoIT {
         newStatus = statusDAO.addLikeToStatus(like, newStatus);
 
 
-        Like createdLike = statusDAO.getLikesFromStatus(newStatus).get(0);
+        Like createdLike = newStatus.getLikes().get(0);
 
         assertEquals(createdLike.getStatus().getId(), newStatus.getId());
         assertEquals(createdLike.getCreatedAt().toString(), like.getCreatedAt().toString());
@@ -271,9 +267,11 @@ public class DaoIT {
         newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newReply.setContent("This is a reply");
 
-        Reply createdReply = replyDAO.createReply(newReply);
+        newStatus = statusDAO.addReplyToStatus(newReply, newStatus);
 
+        Reply createdReply = newStatus.getReplies().get(0);
         assertEquals(createdReply.getContent(), newReply.getContent());
+        assertEquals(createdReply.getStatus().getId(), newStatus.getId());
 
     }
 
@@ -296,9 +294,10 @@ public class DaoIT {
         newReply.setStatus(newStatus);
         newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newReply.setContent("This is a reply");
-        newReply = replyDAO.createReply(newReply);
 
-        List<Reply> retrievedReplyFromStatus = replyDAO.getRepliesFromStatus(newStatus);
+        newStatus = statusDAO.addReplyToStatus(newReply, newStatus);
+
+        List<Reply> retrievedReplyFromStatus = statusDAO.getRepliesFromStatus(newStatus);
 
         assertEquals(retrievedReplyFromStatus.get(0).getContent(), newReply.getContent());
 
@@ -323,11 +322,11 @@ public class DaoIT {
         newReply.setStatus(newStatus);
         newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newReply.setContent("This is a reply");
-        newReply = replyDAO.createReply(newReply);
+        newStatus = statusDAO.addReplyToStatus(newReply, newStatus);
 
-        replyDAO.deleteReply(newReply);
+        statusDAO.deleteReplyFromStatus(newStatus.getReplies().get(0), newStatus);
 
-        assertEquals(replyDAO.getRepliesFromStatus(newStatus).size(), 0);
+        assertEquals(statusDAO.getRepliesFromStatus(newStatus).size(), 0);
     }
 
     /*

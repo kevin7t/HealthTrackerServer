@@ -1,9 +1,9 @@
 package com.kevin.healthtracker.server.dao.interfaces;
 
-import java.util.List;
-
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.User;
+
+import java.util.List;
 
 
 public interface StatusDAO {
@@ -11,10 +11,10 @@ public interface StatusDAO {
 
     Status updateStatus(Status status);
 
-    Status getById(int id);
+    Status getStatusById(int id);
 
     List getStatusesByUser(User user, int pageNumber);
 
-    void deleteById(int id);
+    void deleteStatusById(int id);
 
 }
