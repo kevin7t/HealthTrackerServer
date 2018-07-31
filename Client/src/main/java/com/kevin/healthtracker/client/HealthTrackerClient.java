@@ -2,7 +2,11 @@ package com.kevin.healthtracker.client;
 
 import com.kevin.healthtracker.datamodels.Friend;
 import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.datamodels.dto.LikeDTO;
+import com.kevin.healthtracker.datamodels.dto.ReplyDTO;
+import com.kevin.healthtracker.datamodels.dto.StatusDTO;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 public class HealthTrackerClient {
     private String url;
@@ -69,5 +73,46 @@ public class HealthTrackerClient {
     public Friend getFriend(int user1Id, int user2Id) {
         return restTemplate.getForObject(String.format("%s/users/getfriend/%s/%s", url, user1Id, user2Id), Friend.class);
     }
+
+    /**
+     * User feed functions
+     */
+
+    public StatusDTO addStatus(StatusDTO statusDTO) {
+        return restTemplate.postForObject(url + "/feed/status", statusDTO, StatusDTO.class);
+    }
+
+    public StatusDTO[] getStatus(int userId, int pageNumber) {
+        return restTemplate.getForObject(UriComponentsBuilder.fromHttpUrl(url + "/feed/status/user/" + userId).queryParam("page", pageNumber).build().toUri(), StatusDTO[].class);
+    }
+
+    public void deleteStatus(int statusId) {
+        restTemplate.delete(url + "/feed/status/" + statusId);
+    }
+
+    public LikeDTO addLike(LikeDTO likeDTO) {
+        return restTemplate.postForObject(url + "/feed/status/like", likeDTO, LikeDTO.class);
+    }
+
+    public LikeDTO[] getLikes(int statusId) {
+        return restTemplate.getForObject(url + "/feed/status/like/" + statusId, LikeDTO[].class);
+    }
+
+    public void removeLike(int statusId, int userId) {
+        restTemplate.delete(url + "/feed/status/like/" + statusId + userId);
+    }
+
+    public ReplyDTO sendReply(ReplyDTO replyDTO) {
+        return restTemplate.postForObject(url + "/feed/status/reply", replyDTO, ReplyDTO.class);
+    }
+
+    public ReplyDTO[] getReplies(int statusId) {
+        return restTemplate.getForObject(url + "/feed/status/reply/" + statusId, ReplyDTO[].class);
+    }
+
+    public void deleteReply(int replyId) {
+        restTemplate.delete(url + "/feed/status/reply/" + replyId);
+    }
+
 
 }
