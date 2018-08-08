@@ -1,23 +1,25 @@
 package com.kevin.healthtracker.server.service;
 
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.service.interfaces.UserService;
 import com.kevin.healthtracker.server.util.Encrypter;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDAOImpl userDAO;
+
+    ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public List<User> getAllUsers() {
