@@ -66,7 +66,11 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getById(int id) {
-        return userWithoutPassword(entityManager.find(User.class, id));
+        User user = entityManager.find(User.class, id);
+        if (user != null) {
+            return userWithoutPassword(user);
+        }
+        return user;
     }
 
     @Override
