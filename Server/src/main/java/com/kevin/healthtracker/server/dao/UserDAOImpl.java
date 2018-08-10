@@ -51,10 +51,13 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User updateUser(User user) {
-        User updatedUser = getByUserName(user.getUserName());
+        String userName = user.getUserName();
+        String password = user.getPassword();
+
+        User updatedUser = getByUserName(userName);
         try {
             byte[] salt = Encrypter.generateSalt();
-            updatedUser.setHash(Encrypter.generateHash(user.getPassword(), salt));
+            updatedUser.setHash(Encrypter.generateHash(password, salt));
             updatedUser.setSalt(salt);
             entityManager.flush();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
