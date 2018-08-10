@@ -13,6 +13,8 @@ public interface UserFeedService {
 
     List<StatusDTO> getStatusesByUserId(int userId, int pageNumber);
 
+    List<StatusDTO> getStatusForUserFeed(int userId, int pageNumber);
+
     List<ReplyDTO> getRepliesFromStatus(int id);
 
     List<LikeDTO> getLikesFromStatus(int id);

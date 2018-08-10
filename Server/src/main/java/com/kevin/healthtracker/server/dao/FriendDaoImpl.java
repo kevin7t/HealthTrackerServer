@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -50,13 +49,10 @@ public class FriendDaoImpl implements FriendDao {
     @Override
     public List<Friend> getFriendRelationList(User user) {
         String query = ("SELECT f FROM Friend f WHERE f.user1 = ?0");
-        List<Friend> sentList = entityManager.createQuery(query).setParameter(0, user).getResultList();
-        query = ("SELECT f FROM Friend f WHERE f.user2 = ?0");
-        List<Friend> receivedList = entityManager.createQuery(query).setParameter(0, user).getResultList();
-        List<Friend> combinedList = new ArrayList<>();
-        combinedList.addAll(sentList);
-        combinedList.addAll(receivedList);
-        return combinedList;
+        List<Friend> friendList = entityManager.createQuery(query).setParameter(0, user).getResultList();
+        String query2 = ("SELECT f FROM Friend f WHERE f.user2 = ?0");
+        friendList.addAll(entityManager.createQuery(query2).setParameter(0, user).getResultList());
+        return friendList;
     }
 
     @Override

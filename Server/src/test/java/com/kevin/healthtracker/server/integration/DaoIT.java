@@ -282,6 +282,60 @@ public class DaoIT {
     }
 
     @Test
+    public void getFriendStatuses() {
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        User newUser3 = new User();
+        newUser3.setUserName("Test3");
+        newUser3.setPassword("Password");
+        newUser3 = userDAO.createUser(newUser3);
+
+        //Initiated by user 2 to user 1
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser2);
+        friendRelation.setUser2(newUser);
+        friendRelation.setUserActionId(newUser2.getId());
+        friendRelation.setFriendStatus(FriendStatus.ACCEPTED);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+
+        //Initiated by user 1 to user 3
+        Friend friendRelation2 = new Friend();
+        friendRelation2.setUser1(newUser);
+        friendRelation2.setUser2(newUser3);
+        friendRelation2.setUserActionId(newUser.getId());
+        friendRelation2.setFriendStatus(FriendStatus.ACCEPTED);
+        friendRelation2 = friendDAO.addFriendRelation(friendRelation2);
+
+        Status newStatus = new Status();
+        newStatus.setType(StatusType.BIKE);
+        newStatus.setUser(newUser2);
+        newStatus.setContent("First status");
+        newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newStatus = statusDAO.createStatus(newStatus);
+
+        Status newStatus2 = new Status();
+        newStatus2.setType(StatusType.BIKE);
+        newStatus2.setUser(newUser3);
+        newStatus2.setContent("Second status");
+        newStatus2.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
+        newStatus2 = statusDAO.createStatus(newStatus2);
+
+        List<Status> statuses = statusDAO.getFriendStatusForFeed(newUser, 1);
+        assertEquals(statuses.get(0).getContent(), "First status");
+        assertEquals(statuses.get(1).getContent(), "Second status");
+
+
+    }
+
+    @Test
     public void getRepliesFromStatus() {
         User newUser = new User();
         newUser.setUserName("Test");

@@ -58,6 +58,13 @@ public class UserFeedServiceImpl implements UserFeedService {
     }
 
     @Override
+    public List<StatusDTO> getStatusForUserFeed(int userId, int pageNumber) {
+        return statusDAO.getFriendStatusForFeed(userDAO.getById(userId), pageNumber)
+                .stream().map(status -> modelMapper.map(status, StatusDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteStatusById(int id) {
         statusDAO.deleteById(id);
     }

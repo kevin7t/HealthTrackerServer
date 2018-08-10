@@ -1,16 +1,15 @@
 package com.kevin.healthtracker.server.dao;
 
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.interfaces.StatusDAO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -46,6 +45,20 @@ public class StatusDAOImpl implements StatusDAO {
                 .setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
+    }
+
+    public List<Status> getFriendStatusForFeed(User user, int pageNumber) {
+        String query = ("SELECT f.user2.id FROM Friend f WHERE f.user1 = ?0");
+        List<Integer> friendIds = entityManager.createQuery(query).setParameter(0, user).getResultList();
+        String query2 = ("SELECT f.user1.id FROM Friend f WHERE f.user2 = ?0");
+        friendIds.addAll(entityManager.createQuery(query2).setParameter(0, user).getResultList());
+        String query3 = ("SELECT s FROM Status s WHERE s.user.id IN :ids");
+        List<Status> statusList = entityManager.createQuery(query3)
+                .setParameter("ids", friendIds)
+                .setFirstResult((pageNumber - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+        return statusList;
     }
 
     @Override
