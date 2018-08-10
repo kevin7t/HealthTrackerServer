@@ -1,9 +1,9 @@
 package com.kevin.healthtracker.server.service.interfaces;
 
 
-import java.util.List;
-
 import com.kevin.healthtracker.datamodels.User;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -15,7 +15,7 @@ public interface UserService {
 
     User findById(int id);
 
-    Boolean authenticateUser(User user);
+    User authenticateUser(User user);
 
     void deleteById(int id);
 

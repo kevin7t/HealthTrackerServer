@@ -1,19 +1,16 @@
 package com.kevin.healthtracker.server.util;
 
-import java.math.BigInteger;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 public class Encrypter {
     public static boolean authenticate(String attemptedPassword, byte[] actualHash, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException {
         byte[] encryptedAttemptedPassword = generateHash(attemptedPassword, salt);
-        System.out.println("Attempted password " + attemptedPassword);
-        System.out.println("Encrypted password to string: " + String.format("%x", new BigInteger(generateHash(attemptedPassword, salt))));
         return Arrays.equals(actualHash, encryptedAttemptedPassword);
     }
 

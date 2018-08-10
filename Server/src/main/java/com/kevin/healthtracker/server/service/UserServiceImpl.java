@@ -5,7 +5,6 @@ import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.service.interfaces.UserService;
 import com.kevin.healthtracker.server.util.Encrypter;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +17,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDAOImpl userDAO;
-
-    ModelMapper modelMapper = new ModelMapper();
-
     @Override
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
@@ -47,13 +43,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean authenticateUser(User user) {
+    public User authenticateUser(User user) {
+        User userFromDb = new User();
         try {
-            User userFromDb = userDAO.getByUserName(user.getUserName());
-            return Encrypter.authenticate(user.getPassword(), userFromDb.getHash(), userFromDb.getSalt());
+            userFromDb = userDAO.getByUserName(user.getUserName());
+            Boolean authenticated = Encrypter.authenticate(user.getPassword(), userFromDb.getHash(), userFromDb.getSalt());
+            if (authenticated) {
+                return findById(userFromDb.getId());
+            }
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return false;
+        return userFromDb;
     }
 }
