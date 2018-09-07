@@ -65,13 +65,17 @@ public class UserControllerTest {
         user.setUserName("TestUser");
         user.setPassword("Password");
 
-        when(userService.authenticateUser(isA(User.class))).thenReturn(true);
+        User expectedOutputUser = new User();
+        expectedOutputUser.setId(1);
+        expectedOutputUser.setUserName("TestUser");
+
+        when(userService.authenticateUser(isA(User.class))).thenReturn(expectedOutputUser);
 
         mockMvc.perform(post("/healthtracker/users/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isAccepted())
-                .andExpect(content().string("true"));
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedOutputUser)));
 
     }
 
