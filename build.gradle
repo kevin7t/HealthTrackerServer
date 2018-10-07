@@ -14,7 +14,7 @@ buildscript {
     }
 }
 ext {
-    lombokVersion = '1.16.20'
+    lombokVersion = '1.18.2'
     springCoreVersion = '5.0.4.RELEASE'
     jacksonVersion = '2.9.4'
     junitVersion = '4.12'
