@@ -18,11 +18,18 @@ import java.util.List;
 public class FriendDaoImpl implements FriendDao {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public Friend addFriendRelation(Friend friend) {
+
         if (!checkIfAlreadyExists(friend)) {
+            //Swap user order for the database to keep user 1 id being < user 2
+            if (friend.getUser1().getId() > friend.getUser2().getId()) {
+                User temp = friend.getUser1();
+                friend.setUser1(friend.getUser2());
+                friend.setUser2(temp);
+            }
             log.info("Friend does not exist, creating new friend");
             entityManager.persist(entityManager.merge(friend));
         } else {
@@ -47,6 +54,7 @@ public class FriendDaoImpl implements FriendDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Friend> getFriendRelationList(User user) {
         String query = ("SELECT f FROM Friend f WHERE f.user1 = ?0");
         List<Friend> friendList = entityManager.createQuery(query).setParameter(0, user).getResultList();
@@ -56,12 +64,14 @@ public class FriendDaoImpl implements FriendDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Friend> getIncomingRequestsForUser(User user) {
         String query = ("SELECT f FROM Friend f WHERE f.user2 = ?0");
         return entityManager.createQuery(query).setParameter(0, user).getResultList();
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Friend> getOutgoingRequestsFromUser(int userActionId) {
         String query = ("SELECT f FROM Friend f WHERE f.userActionId = ?0");
         return entityManager.createQuery(query).setParameter(0, userActionId).getResultList();

@@ -26,16 +26,11 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Friend addFriendRelation(int user1, int user2) {
         Friend friendRelation = new Friend();
-        //Store two users in increasing order so that there are never duplicate friend relations as user1/user2 is a key
-        if (user1 > user2) {
-            int temp = user1;
-            user1 = user2;
-            user2 = temp;
-        }
+        //User 1 should always be the user initiating the relation
+        friendRelation.setUserActionId(user1);
         friendRelation.setUser1(userDAO.getById(user1));
         friendRelation.setUser2(userDAO.getById(user2));
         friendRelation.setFriendStatus(FriendStatus.PENDING);
-        friendRelation.setUserActionId(user1);
         return friendDao.addFriendRelation(friendRelation);
     }
 

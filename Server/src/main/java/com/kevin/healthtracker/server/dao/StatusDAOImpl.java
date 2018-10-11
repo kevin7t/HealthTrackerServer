@@ -48,17 +48,22 @@ public class StatusDAOImpl implements StatusDAO {
     }
 
     public List<Status> getFriendStatusForFeed(User user, int pageNumber) {
+        //Get entire friends by searching both ends of the relation
         String query = ("SELECT f.user2.id FROM Friend f WHERE f.user1 = ?0");
         List<Integer> friendIds = entityManager.createQuery(query).setParameter(0, user).getResultList();
         String query2 = ("SELECT f.user1.id FROM Friend f WHERE f.user2 = ?0");
         friendIds.addAll(entityManager.createQuery(query2).setParameter(0, user).getResultList());
+
+        //Add the users own id to get their statuses
         friendIds.add(user.getId());
+
         String query3 = ("SELECT s FROM Status s WHERE s.user.id IN :ids ORDER BY s.createdAt DESC");
         List<Status> statusList = entityManager.createQuery(query3)
                 .setParameter("ids", friendIds)
                 .setFirstResult((pageNumber - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
+
         return statusList;
     }
 
