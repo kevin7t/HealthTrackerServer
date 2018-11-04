@@ -94,4 +94,8 @@ public class UserController {
         return new ResponseEntity<>(friendService.getFriendRelation(user1, user2), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/searchuser/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<User> getUserByUsername (@PathVariable String username){
+        return new ResponseEntity<>(userService.getUserByUsername(username),HttpStatus.OK);
+    }
 }
