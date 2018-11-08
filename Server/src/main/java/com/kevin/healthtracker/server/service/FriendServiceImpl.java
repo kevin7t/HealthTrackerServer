@@ -106,10 +106,12 @@ public class FriendServiceImpl implements FriendService {
         List<Friend> allRelations = friendDao.getFriendRelationList(userDAO.getById(user1));
         List<User> friends = new ArrayList<>();
         allRelations.forEach(r -> {
-            if (r.getUser1().getId() == (user1)) {
-                friends.add(r.getUser2());
-            } else {
-                friends.add(r.getUser1());
+            if (r.getFriendStatus() == FriendStatus.ACCEPTED){
+                if (r.getUser1().getId() == (user1)) {
+                    friends.add(r.getUser2());
+                } else {
+                    friends.add(r.getUser1());
+                }
             }
         });
         return friends;
