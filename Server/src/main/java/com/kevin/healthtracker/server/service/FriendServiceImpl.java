@@ -84,12 +84,15 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<Friend> getInboundPendingRequestsForUser(int user) {
-        List<Friend> friendList = friendDao.getIncomingRequestsForUser(userDAO.getById(user));
-        friendList = friendList.stream()
-                .filter(friend -> friend.getFriendStatus().equals(FriendStatus.PENDING))
-                .collect(Collectors.toList());
-        return friendList;
+    public List<Friend> getInboundOutboundPendingRequestsForUser(int user) {
+        List<Friend> friendList = friendDao.getIncomingOutcomingFriends(userDAO.getById(user));
+        List<Friend> output = new ArrayList<>();
+        for (Friend friend : friendList) {
+            if (friend.getFriendStatus().equals(FriendStatus.PENDING)){
+                output.add(friend);
+            }
+        }
+        return output;
     }
 
     @Override

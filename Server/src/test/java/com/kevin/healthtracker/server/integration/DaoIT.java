@@ -527,7 +527,7 @@ public class DaoIT {
         friendRelation = friendDAO.addFriendRelation(friendRelation);
         assertEquals(friendRelation.getFriendStatus(), FriendStatus.PENDING);
 
-        List<Friend> requestsFromUser1 = friendDAO.getIncomingRequestsForUser(newUser2);
+        List<Friend> requestsFromUser1 = friendDAO.getIncomingOutcomingFriends(newUser2);
         assertEquals(requestsFromUser1.get(0).getUser1().getUserName(), newUser.getUserName());
     }
 

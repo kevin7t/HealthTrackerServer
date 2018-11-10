@@ -79,9 +79,9 @@ public class UserController {
         return new ResponseEntity<>(friendService.getOutboundPendingRequestsForUser(user), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getinboundrequests/{user}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Friend>> getInboundRequests(@PathVariable int user) {
-        return new ResponseEntity<>(friendService.getInboundPendingRequestsForUser(user), HttpStatus.OK);
+    @RequestMapping(value = "/getinboundoutboundrequests/{user}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Friend>> getInboundOutboundRequests(@PathVariable int user) {
+        return new ResponseEntity<>(friendService.getInboundOutboundPendingRequestsForUser(user), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getallrelations/{user}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

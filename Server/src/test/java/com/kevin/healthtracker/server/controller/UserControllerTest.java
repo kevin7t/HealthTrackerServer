@@ -261,7 +261,7 @@ public class UserControllerTest {
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
-        when(friendService.getInboundPendingRequestsForUser(isA(Integer.class))).thenReturn(Collections.singletonList(friend));
+        when(friendService.getInboundOutboundPendingRequestsForUser(isA(Integer.class))).thenReturn(Collections.singletonList(friend));
 
         mockMvc.perform(get("/healthtracker/users/getinboundrequests/2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))

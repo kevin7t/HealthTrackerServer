@@ -18,7 +18,7 @@ public interface FriendService {
 
     Friend getFriendRelation(int user1, int user2);
 
-    List<Friend> getInboundPendingRequestsForUser(int user1);
+    List<Friend> getInboundOutboundPendingRequestsForUser(int user1);
 
     List<Friend> getOutboundPendingRequestsForUser(int user1);
 
