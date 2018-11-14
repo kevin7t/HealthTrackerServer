@@ -90,6 +90,14 @@ public class UserDAOImpl implements UserDAO {
         log.info("Deleted user with id:" + id);
     }
 
+    @Override
+    public User increaseUserScore(int userId, int score) {
+        User user = entityManager.find(User.class, userId);
+        user.increaseScore(score);
+        entityManager.flush();
+        return user;
+    }
+
     private User userWithoutPassword(User user) {
         user.setPassword(null);
         return user;
