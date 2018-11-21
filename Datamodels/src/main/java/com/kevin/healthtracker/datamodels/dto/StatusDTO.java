@@ -1,11 +1,11 @@
 package com.kevin.healthtracker.datamodels.dto;
 
-import java.sql.Date;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kevin.healthtracker.datamodels.StatusType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Date;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class StatusDTO {
     private int id;
     private int userId;
+    private String userName;
     private Date createdAt;
     private StatusType type;
     private String content;

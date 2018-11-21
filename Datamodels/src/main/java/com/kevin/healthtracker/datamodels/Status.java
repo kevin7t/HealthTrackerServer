@@ -21,6 +21,9 @@ public class Status {
     @ManyToOne
     private User user;
 
+    @Column(name = "user_name", nullable = false)
+    private String userName;
+
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 

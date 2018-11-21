@@ -45,6 +45,7 @@ public class UserFeedServiceImpl implements UserFeedService {
         //Map DTO to Entity
         Status status = modelMapper.map(statusDTO, Status.class);
         status.setCreatedAt(currentTime());
+        status.setUserName(userDAO.getById(status.getUser().getId()).getUserName());
         status = statusDAO.createStatus(status);
         //Map Entity back to DTO
         return modelMapper.map(status, StatusDTO.class);
