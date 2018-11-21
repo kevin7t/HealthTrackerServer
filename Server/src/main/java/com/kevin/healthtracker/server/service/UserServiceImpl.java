@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User increaseUserScore(int userId, int score) {
+        return userDAO.increaseUserScore(userId, score);
+    }
+
+    @Override
     public User authenticateUser(User user) {
         User userFromDb = new User();
         try {
