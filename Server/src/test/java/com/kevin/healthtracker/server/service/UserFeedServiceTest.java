@@ -15,8 +15,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
-import java.sql.Date;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,6 +48,7 @@ public class UserFeedServiceTest {
         StatusDTO expectedStatus = getStatusDTO();
 
         when(statusDAO.createStatus(isA(Status.class))).thenReturn(modelMapper.map(expectedStatus, Status.class));
+        when(userDAO.getById(isA(Integer.class))).thenReturn(getUser());
         StatusDTO actualStatus = userFeedService.createStatus(expectedStatus);
 
         assertEquals(expectedStatus, actualStatus);
@@ -93,6 +94,7 @@ public class UserFeedServiceTest {
         StatusDTO expectedStatus = new StatusDTO();
         expectedStatus.setId(1);
         expectedStatus.setUserId(1);
+        expectedStatus.setUserName("Test");
         expectedStatus.setType(StatusType.BIKE);
         expectedStatus.setCreatedAt(new Date(2018, 04, 23));
         expectedStatus.setContent("Test");
@@ -107,6 +109,7 @@ public class UserFeedServiceTest {
         status.setUser(getUser());
         status.setType(StatusType.BIKE);
         status.setContent("Test");
+        status.setUserName("Test");
         status.setCreatedAt(new Date(2018, 04, 23));
         status.setLikeCount(0);
         status.setReplyCount(0);
@@ -116,6 +119,7 @@ public class UserFeedServiceTest {
     private User getUser() {
         User user = new User();
         user.setId(1);
+        user.setUserName("Test");
         return user;
     }
 }

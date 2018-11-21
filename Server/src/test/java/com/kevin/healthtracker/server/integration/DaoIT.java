@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -115,6 +115,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         Status createdStatus = statusDAO.createStatus(newStatus);
@@ -134,6 +135,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
@@ -154,6 +156,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         statusDAO.createStatus(newStatus);
@@ -161,6 +164,7 @@ public class DaoIT {
         Status newStatus2 = new Status();
         newStatus2.setType(StatusType.WALK);
         newStatus2.setUser(newUser);
+        newStatus2.setUserName("Test");
         newStatus2.setContent("Test content2");
         newStatus2.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         statusDAO.createStatus(newStatus2);
@@ -185,6 +189,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
@@ -206,6 +211,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
@@ -233,6 +239,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
@@ -265,6 +272,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
@@ -317,6 +325,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser2);
+        newStatus.setUserName(newUser2.getUserName());
         newStatus.setContent("First status");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
@@ -324,13 +333,14 @@ public class DaoIT {
         Status newStatus2 = new Status();
         newStatus2.setType(StatusType.BIKE);
         newStatus2.setUser(newUser3);
+        newStatus2.setUserName(newUser3.getUserName());
         newStatus2.setContent("Second status");
         newStatus2.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus2 = statusDAO.createStatus(newStatus2);
 
         List<Status> statuses = statusDAO.getFriendStatusForFeed(newUser, 1);
-        assertEquals(statuses.get(0).getContent(), "First status");
-        assertEquals(statuses.get(1).getContent(), "Second status");
+        assertEquals(statuses.get(1).getContent(), "First status");
+        assertEquals(statuses.get(0).getContent(), "Second status");
 
 
     }
@@ -345,6 +355,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
@@ -372,6 +383,7 @@ public class DaoIT {
         Status newStatus = new Status();
         newStatus.setType(StatusType.BIKE);
         newStatus.setUser(newUser);
+        newStatus.setUserName("Test");
         newStatus.setContent("Test content");
         newStatus.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newStatus = statusDAO.createStatus(newStatus);
