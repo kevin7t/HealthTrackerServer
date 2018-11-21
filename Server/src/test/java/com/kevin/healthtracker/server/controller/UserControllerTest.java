@@ -239,9 +239,9 @@ public class UserControllerTest {
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
-        when(friendService.getOutboundPendingRequestsForUser(isA(Integer.class))).thenReturn(Collections.singletonList(friend));
+        when(friendService.getInboundOutboundPendingRequestsForUser(isA(Integer.class))).thenReturn(Collections.singletonList(friend));
 
-        mockMvc.perform(get("/healthtracker/users/getoutboundrequests/1")
+        mockMvc.perform(get("/healthtracker/users/getinboundoutboundrequests/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(friend))));
@@ -263,7 +263,7 @@ public class UserControllerTest {
         friend.setUserActionId(user1.getId());
         when(friendService.getInboundOutboundPendingRequestsForUser(isA(Integer.class))).thenReturn(Collections.singletonList(friend));
 
-        mockMvc.perform(get("/healthtracker/users/getinboundrequests/2")
+        mockMvc.perform(get("/healthtracker/users/getinboundoutboundrequests/2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(friend))));

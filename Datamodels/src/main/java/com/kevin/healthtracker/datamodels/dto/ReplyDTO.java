@@ -1,10 +1,10 @@
 package com.kevin.healthtracker.datamodels.dto;
 
-import java.sql.Date;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @NoArgsConstructor

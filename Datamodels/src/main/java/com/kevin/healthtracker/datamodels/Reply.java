@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "replies")
@@ -19,6 +19,7 @@ public class Reply {
     @Column(name = "id")
     private int Id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 

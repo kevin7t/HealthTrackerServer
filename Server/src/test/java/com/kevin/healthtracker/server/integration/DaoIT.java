@@ -329,8 +329,8 @@ public class DaoIT {
         newStatus2 = statusDAO.createStatus(newStatus2);
 
         List<Status> statuses = statusDAO.getFriendStatusForFeed(newUser, 1);
-        assertEquals(statuses.get(0).getContent(), "First status");
-        assertEquals(statuses.get(1).getContent(), "Second status");
+        assertEquals(statuses.get(1).getContent(), "First status");
+        assertEquals(statuses.get(0).getContent(), "Second status");
 
 
     }
