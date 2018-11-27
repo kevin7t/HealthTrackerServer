@@ -36,4 +36,12 @@ public class User {
     @Transient
     private String password;
 
+    @Column(name = "score", nullable = false)
+    private int score;
+
+    public int increaseScore(int amount) {
+        return score += amount;
+    }
 }
+
+

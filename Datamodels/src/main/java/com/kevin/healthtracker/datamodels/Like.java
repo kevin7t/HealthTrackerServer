@@ -21,6 +21,7 @@ public class Like {
     @Column(name = "id")
     private int Id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 

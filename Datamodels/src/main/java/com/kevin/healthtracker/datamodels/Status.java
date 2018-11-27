@@ -24,6 +24,7 @@ public class Status {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
