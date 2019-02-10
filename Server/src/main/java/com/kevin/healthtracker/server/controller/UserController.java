@@ -99,7 +99,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserByUsername(username),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "userscore/{userId}/{score}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/userscore/{userId}/{score}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<User> increaseUserScore(@PathVariable int userId, @PathVariable int score) {
         return new ResponseEntity<>(userService.increaseUserScore(userId, score), HttpStatus.OK);
     }
