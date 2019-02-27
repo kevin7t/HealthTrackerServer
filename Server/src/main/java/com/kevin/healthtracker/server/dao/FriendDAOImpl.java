@@ -3,20 +3,19 @@ package com.kevin.healthtracker.server.dao;
 import com.kevin.healthtracker.datamodels.Friend;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
-import com.kevin.healthtracker.server.dao.interfaces.FriendDao;
+import com.kevin.healthtracker.server.dao.interfaces.FriendDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
 @Repository
 @Slf4j
-public class FriendDaoImpl implements FriendDao {
+public class FriendDAOImpl implements FriendDAO {
 
     @PersistenceContext
     private EntityManager entityManager;

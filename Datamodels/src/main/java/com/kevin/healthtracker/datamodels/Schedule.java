@@ -6,29 +6,33 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "friends")
+@Table(name = "schedule")
 @Data
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@IdClass(UserUserKey.class)
-public class Friend {
+public class Schedule {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int Id;
 
-    @Id
     @ManyToOne
     private User user1;
 
-    @Id
     @ManyToOne
     private User user2;
 
-    @Column(name = "friendStatus", nullable = false)
-    private RequestStatus friendStatus;
+    @Column(name = "date", nullable = false)
+    private String date;
+
+    @Column(name = "time", nullable = false)
+    private String time;
+
+    @Column(name = "scheduleStatus", nullable = false)
+    private RequestStatus scheduleStatus;
 
     //id of user initiating friend action
     @Column(name = "userActionId", nullable = false)

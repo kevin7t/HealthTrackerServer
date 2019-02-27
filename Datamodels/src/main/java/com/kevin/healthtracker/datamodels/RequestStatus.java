@@ -1,6 +1,6 @@
 package com.kevin.healthtracker.datamodels;
 
-public enum FriendStatus {
+public enum RequestStatus {
     PENDING,
     ACCEPTED,
     DECLINED

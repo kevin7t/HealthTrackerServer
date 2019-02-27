@@ -6,7 +6,7 @@ import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
 
 import java.util.List;
 
-public interface FriendDao {
+public interface FriendDAO {
     Friend addFriendRelation(Friend friend);
 
     Friend updateFriendRelation(Friend friend);

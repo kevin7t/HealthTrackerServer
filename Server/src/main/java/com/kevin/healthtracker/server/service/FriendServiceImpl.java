@@ -1,10 +1,10 @@
 package com.kevin.healthtracker.server.service;
 
 import com.kevin.healthtracker.datamodels.Friend;
-import com.kevin.healthtracker.datamodels.FriendStatus;
+import com.kevin.healthtracker.datamodels.RequestStatus;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
-import com.kevin.healthtracker.server.dao.FriendDaoImpl;
+import com.kevin.healthtracker.server.dao.FriendDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.service.interfaces.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class FriendServiceImpl implements FriendService {
 
     @Autowired
-    FriendDaoImpl friendDao;
+    FriendDAOImpl friendDao;
 
     @Autowired
     UserDAOImpl userDAO;
@@ -30,7 +30,7 @@ public class FriendServiceImpl implements FriendService {
         friendRelation.setUserActionId(user1);
         friendRelation.setUser1(userDAO.getById(user1));
         friendRelation.setUser2(userDAO.getById(user2));
-        friendRelation.setFriendStatus(FriendStatus.PENDING);
+        friendRelation.setFriendStatus(RequestStatus.PENDING);
         return friendDao.addFriendRelation(friendRelation);
     }
 
@@ -42,14 +42,14 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Friend acceptFriendRelation(int user1, int user2) {
         Friend relation = getFriendRelation(user1, user2);
-        relation.setFriendStatus(FriendStatus.ACCEPTED);
+        relation.setFriendStatus(RequestStatus.ACCEPTED);
         return updateFriendRelation(relation);
     }
 
     @Override
     public Friend declineFriendRelation(int user1, int user2) {
         Friend relation = getFriendRelation(user1, user2);
-        relation.setFriendStatus(FriendStatus.DECLINED);
+        relation.setFriendStatus(RequestStatus.DECLINED);
         return updateFriendRelation(relation);
     }
 
@@ -73,7 +73,7 @@ public class FriendServiceImpl implements FriendService {
         List<Friend> friendList = friendDao.getIncomingOutcomingFriends(userDAO.getById(user));
         List<Friend> output = new ArrayList<>();
         for (Friend friend : friendList) {
-            if (friend.getFriendStatus().equals(FriendStatus.PENDING)){
+            if (friend.getFriendStatus().equals(RequestStatus.PENDING)){
                 output.add(friend);
             }
         }
@@ -84,7 +84,7 @@ public class FriendServiceImpl implements FriendService {
     public List<Friend> getOutboundPendingRequestsForUser(int user1) {
         List<Friend> friendList = friendDao.getOutgoingRequestsFromUser(user1);
         friendList = friendList.stream()
-                .filter(friend -> friend.getFriendStatus().equals(FriendStatus.PENDING))
+                .filter(friend -> friend.getFriendStatus().equals(RequestStatus.PENDING))
                 .collect(Collectors.toList());
         return friendList;
     }
@@ -94,7 +94,7 @@ public class FriendServiceImpl implements FriendService {
         List<Friend> allRelations = friendDao.getFriendRelationList(userDAO.getById(user1));
         List<User> friends = new ArrayList<>();
         allRelations.forEach(r -> {
-            if (r.getFriendStatus() == FriendStatus.ACCEPTED){
+            if (r.getFriendStatus() == RequestStatus.ACCEPTED){
                 if (r.getUser1().getId() == (user1)) {
                     friends.add(r.getUser2());
                 } else {
