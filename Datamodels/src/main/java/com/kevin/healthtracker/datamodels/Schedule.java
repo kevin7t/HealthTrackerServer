@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 @Entity
@@ -26,10 +27,10 @@ public class Schedule {
     private User user2;
 
     @Column(name = "date", nullable = false)
-    private String date;
+    private Date date;
 
     @Column(name = "time", nullable = false)
-    private String time;
+    private Time time;
 
     @Column(name = "scheduleStatus", nullable = false)
     private RequestStatus scheduleStatus;

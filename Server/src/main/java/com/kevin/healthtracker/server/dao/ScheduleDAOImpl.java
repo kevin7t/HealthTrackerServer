@@ -1,5 +1,6 @@
 package com.kevin.healthtracker.server.dao;
 
+import com.kevin.healthtracker.datamodels.Friend;
 import com.kevin.healthtracker.datamodels.Schedule;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.dao.interfaces.ScheduleDAO;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Transactional
@@ -38,19 +41,34 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     @Override
     public List<Schedule> getScheduleList(User user) {
         String query = ("SELECT s FROM Schedule s where s.user1 = ?0");
-        List<Schedule> scheduleList = entityManager.createQuery(query).setParameter(0,user).getResultList();
+        List<Schedule> scheduleList = entityManager.createQuery(query).setParameter(0, user).getResultList();
         String query2 = ("SELECT s FROM Schedule s where s.user2 = ?0");
-        scheduleList.addAll(entityManager.createQuery(query2).setParameter(0,user).getResultList());
+        scheduleList.addAll(entityManager.createQuery(query2).setParameter(0, user).getResultList());
         return scheduleList;
     }
 
     @Override
     public List<Schedule> getIncoming(User user) {
-        return null;
+        List<Schedule> scheduleList = getScheduleList(user);
+        List<Schedule> filteredList = new ArrayList<>();
+        int userId = user.getId();
+        scheduleList.forEach(schedule -> {
+            if (schedule.getUserActionId() != userId && schedule.getUser1().getId() != userId) {
+                filteredList.add(schedule);
+            } else if (schedule.getUserActionId() != userId && schedule.getUser2().getId() != userId) {
+                filteredList.add(schedule);
+            }
+        });
+        return filteredList;
     }
 
     @Override
-    public List<Schedule> getOutgoing(int userId) {
-        return null;
+    public List<Schedule> getOutgoing(int userActionId) {
+        String query = ("SELECT s FROM Schedule s WHERE s.userActionId = ?0");
+        return entityManager.createQuery(query).setParameter(0, userActionId).getResultList();
+    }
+
+    public Schedule getById(int id){
+        return entityManager.find(Schedule.class, id);
     }
 }

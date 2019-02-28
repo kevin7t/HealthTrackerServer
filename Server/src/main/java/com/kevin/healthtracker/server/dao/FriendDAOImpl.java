@@ -66,7 +66,8 @@ public class FriendDAOImpl implements FriendDAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Friend> getIncomingOutcomingFriends(User user) {
-        String query = ("SELECT f FROM Friend f WHERE f.user1 = ?0");
+        String query = ("SELECT f " +
+                "FROM Friend f WHERE f.user1 = ?0");
         List<Friend> friendList = entityManager.createQuery(query).setParameter(0, user).getResultList();
         String query2 = ("SELECT f FROM Friend f WHERE f.user2 = ?0");
         friendList.addAll(entityManager.createQuery(query2).setParameter(0, user).getResultList());

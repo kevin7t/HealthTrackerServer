@@ -7,4 +7,10 @@ import com.kevin.healthtracker.datamodels.User;
 import java.util.List;
 
 public interface ScheduleService {
+    Schedule addSchedule(Schedule schedule);
+    Schedule acceptSchedule(int scheduleId);
+    Schedule declineSchedule(int scheduleId);
+    List<Schedule> getAll(int user);
+    List<Schedule> getInbound(int user);
+    List<Schedule> getOutbound(int user);
 }
