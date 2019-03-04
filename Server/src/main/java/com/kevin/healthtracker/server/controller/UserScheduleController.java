@@ -3,6 +3,7 @@ package com.kevin.healthtracker.server.controller;
 import com.kevin.healthtracker.datamodels.Friend;
 import com.kevin.healthtracker.datamodels.Schedule;
 import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.datamodels.dto.ScheduleDTO;
 import com.kevin.healthtracker.server.service.FriendServiceImpl;
 import com.kevin.healthtracker.server.service.UserServiceImpl;
 import com.kevin.healthtracker.server.service.interfaces.ScheduleServiceImpl;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -23,7 +25,7 @@ public class UserScheduleController {
     ScheduleServiceImpl scheduleService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Schedule> addSchedule(@RequestBody Schedule schedule) {
+    public ResponseEntity<Schedule> addSchedule(@RequestBody ScheduleDTO schedule) throws ParseException {
         return new ResponseEntity<>(scheduleService.addSchedule(schedule), HttpStatus.CREATED);
     }
 

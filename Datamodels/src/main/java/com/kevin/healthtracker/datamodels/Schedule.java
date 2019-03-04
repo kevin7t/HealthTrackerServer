@@ -1,12 +1,12 @@
 package com.kevin.healthtracker.datamodels;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kevin.healthtracker.datamodels.compositekeys.UserUserKey;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Schedule {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int Id;
@@ -27,10 +27,7 @@ public class Schedule {
     private User user2;
 
     @Column(name = "date", nullable = false)
-    private Date date;
-
-    @Column(name = "time", nullable = false)
-    private Time time;
+    private Timestamp dateTime;
 
     @Column(name = "scheduleStatus", nullable = false)
     private RequestStatus scheduleStatus;
