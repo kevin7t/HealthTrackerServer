@@ -1,12 +1,11 @@
-package com.kevin.healthtracker.server.service.interfaces;
+package com.kevin.healthtracker.server.service;
 
 import com.kevin.healthtracker.datamodels.RequestStatus;
 import com.kevin.healthtracker.datamodels.Schedule;
 import com.kevin.healthtracker.datamodels.dto.ScheduleDTO;
 import com.kevin.healthtracker.server.dao.ScheduleDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
-import com.kevin.healthtracker.server.dao.interfaces.UserDAO;
-import org.modelmapper.ModelMapper;
+import com.kevin.healthtracker.server.service.interfaces.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +27,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Schedule addSchedule(ScheduleDTO scheduleDTO) throws ParseException {
-        Schedule schedule = mapDTO(scheduleDTO);
+        Schedule schedule = mapScheduleDTOtoEntity(scheduleDTO);
         return scheduleDAO.addSchedule(schedule);
     }
 
-    private Schedule mapDTO(ScheduleDTO scheduleDTO) throws ParseException {
+    private Schedule mapScheduleDTOtoEntity(ScheduleDTO scheduleDTO) throws ParseException {
         Schedule schedule = new Schedule();
         schedule.setUser1(userDAO.getById(scheduleDTO.getUser1id()));
         schedule.setUser2(userDAO.getById(scheduleDTO.getUser2id()));
@@ -43,6 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setUserActionId(scheduleDTO.getUserActionId());
         schedule.setUser1(userDAO.getById(schedule.getUser1().getId()));
         schedule.setUser2(userDAO.getById(schedule.getUser2().getId()));
+        schedule.setContent(scheduleDTO.getContent());
         return schedule;
     }
 

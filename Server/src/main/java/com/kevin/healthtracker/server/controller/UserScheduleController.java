@@ -1,12 +1,8 @@
 package com.kevin.healthtracker.server.controller;
 
-import com.kevin.healthtracker.datamodels.Friend;
 import com.kevin.healthtracker.datamodels.Schedule;
-import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.datamodels.dto.ScheduleDTO;
-import com.kevin.healthtracker.server.service.FriendServiceImpl;
-import com.kevin.healthtracker.server.service.UserServiceImpl;
-import com.kevin.healthtracker.server.service.interfaces.ScheduleServiceImpl;
+import com.kevin.healthtracker.server.service.ScheduleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,17 +35,17 @@ public class UserScheduleController {
         return new ResponseEntity<>(scheduleService.declineSchedule(id), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getAll/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/getall/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Schedule>> getAllSchedule(@PathVariable int userid) {
         return new ResponseEntity<>(scheduleService.getAll(userid), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getInbound/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/getinbound/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Schedule>> getInboundSchedule(@PathVariable int userid) {
         return new ResponseEntity<>(scheduleService.getInbound(userid), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getOutbound/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/getoutbound/{userid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Schedule>> getOutboudSchedule(@PathVariable int userid) {
         return new ResponseEntity<>(scheduleService.getOutbound(userid), HttpStatus.CREATED);
     }

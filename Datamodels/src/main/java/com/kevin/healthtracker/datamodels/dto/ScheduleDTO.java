@@ -18,4 +18,5 @@ public class ScheduleDTO {
     private String dateTime;
     private String scheduleStatus;
     private int userActionId;
+    private String content;
 }

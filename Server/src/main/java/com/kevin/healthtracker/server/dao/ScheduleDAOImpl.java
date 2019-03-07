@@ -40,26 +40,19 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
     @Override
     public List<Schedule> getScheduleList(User user) {
-        String query = ("SELECT s FROM Schedule s where s.user1 = ?0");
+        String query = ("SELECT s FROM Schedule s where s.user1 = ?0 AND s.scheduleStatus = 'ACCEPTED'");
         List<Schedule> scheduleList = entityManager.createQuery(query).setParameter(0, user).getResultList();
-        String query2 = ("SELECT s FROM Schedule s where s.user2 = ?0");
+        String query2 = ("SELECT s FROM Schedule s where s.user2 = ?0 AND s.scheduleStatus = 'ACCEPTED'");
         scheduleList.addAll(entityManager.createQuery(query2).setParameter(0, user).getResultList());
         return scheduleList;
     }
 
     @Override
     public List<Schedule> getIncoming(User user) {
-        List<Schedule> scheduleList = getScheduleList(user);
-        List<Schedule> filteredList = new ArrayList<>();
-        int userId = user.getId();
-        scheduleList.forEach(schedule -> {
-            if (schedule.getUserActionId() != userId && schedule.getUser1().getId() != userId) {
-                filteredList.add(schedule);
-            } else if (schedule.getUserActionId() != userId && schedule.getUser2().getId() != userId) {
-                filteredList.add(schedule);
-            }
-        });
-        return filteredList;
+        String query = ("SELECT s FROM Schedule s WHERE s.userActionId <> ?0 " +
+                "AND (s.user1 = ?0 OR s.user2 = ?0)" +
+                "AND s.scheduleStatus = 'PENDING'");
+        return entityManager.createQuery(query).setParameter(0, user.getId()).getResultList();
     }
 
     @Override

@@ -35,4 +35,7 @@ public class Schedule {
     //id of user initiating friend action
     @Column(name = "userActionId", nullable = false)
     private int userActionId;
+
+    @Column(name = "content", nullable = false)
+    private String content;
 }
