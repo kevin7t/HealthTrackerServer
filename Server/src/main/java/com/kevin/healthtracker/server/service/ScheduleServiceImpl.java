@@ -35,10 +35,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule schedule = new Schedule();
         schedule.setUser1(userDAO.getById(scheduleDTO.getUser1id()));
         schedule.setUser2(userDAO.getById(scheduleDTO.getUser2id()));
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date = dateFormat.parse(scheduleDTO.getDateTime());
-        schedule.setDateTime(new Timestamp(date.getTime()));
-        schedule.setScheduleStatus(RequestStatus.valueOf(scheduleDTO.getScheduleStatus()));
+        schedule.setDateTime(scheduleDTO.getDateTime());
+        schedule.setScheduleStatus(scheduleDTO.getScheduleStatus());
         schedule.setUserActionId(scheduleDTO.getUserActionId());
         schedule.setUser1(userDAO.getById(schedule.getUser1().getId()));
         schedule.setUser2(userDAO.getById(schedule.getUser2().getId()));

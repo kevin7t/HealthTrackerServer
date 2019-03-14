@@ -1,12 +1,11 @@
 package com.kevin.healthtracker.datamodels.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kevin.healthtracker.datamodels.StatusType;
+import com.kevin.healthtracker.datamodels.RequestStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -15,8 +14,8 @@ public class ScheduleDTO {
     private int id;
     private int user1id;
     private int user2id;
-    private String dateTime;
-    private String scheduleStatus;
+    private Timestamp dateTime;
+    private RequestStatus scheduleStatus;
     private int userActionId;
     private String content;
 }
