@@ -2,7 +2,7 @@ package com.kevin.healthtracker.server.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kevin.healthtracker.datamodels.Friend;
-import com.kevin.healthtracker.datamodels.FriendStatus;
+import com.kevin.healthtracker.datamodels.RequestStatus;
 import com.kevin.healthtracker.datamodels.User;
 import com.kevin.healthtracker.server.service.FriendServiceImpl;
 import com.kevin.healthtracker.server.service.UserServiceImpl;
@@ -147,7 +147,7 @@ public class UserControllerTest {
         user1.setUserName("User1");
         user2.setUserName("User2");
         friend.setId(1);
-        friend.setFriendStatus(FriendStatus.PENDING);
+        friend.setFriendStatus(RequestStatus.PENDING);
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
@@ -169,7 +169,7 @@ public class UserControllerTest {
         user1.setUserName("User1");
         user2.setUserName("User2");
         friend.setId(1);
-        friend.setFriendStatus(FriendStatus.ACCEPTED);
+        friend.setFriendStatus(RequestStatus.ACCEPTED);
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
@@ -191,7 +191,7 @@ public class UserControllerTest {
         user1.setUserName("User1");
         user2.setUserName("User2");
         friend.setId(1);
-        friend.setFriendStatus(FriendStatus.DECLINED);
+        friend.setFriendStatus(RequestStatus.DECLINED);
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
@@ -213,7 +213,7 @@ public class UserControllerTest {
         user1.setUserName("User1");
         user2.setUserName("User2");
         friend.setId(1);
-        friend.setFriendStatus(FriendStatus.ACCEPTED);
+        friend.setFriendStatus(RequestStatus.ACCEPTED);
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
@@ -235,7 +235,7 @@ public class UserControllerTest {
         user1.setUserName("User1");
         user2.setUserName("User2");
         friend.setId(1);
-        friend.setFriendStatus(FriendStatus.PENDING);
+        friend.setFriendStatus(RequestStatus.PENDING);
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());
@@ -257,7 +257,7 @@ public class UserControllerTest {
         user1.setUserName("User1");
         user2.setUserName("User2");
         friend.setId(1);
-        friend.setFriendStatus(FriendStatus.PENDING);
+        friend.setFriendStatus(RequestStatus.PENDING);
         friend.setUser1(user1);
         friend.setUser2(user2);
         friend.setUserActionId(user1.getId());

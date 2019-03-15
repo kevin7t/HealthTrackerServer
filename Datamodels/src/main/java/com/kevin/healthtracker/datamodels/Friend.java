@@ -28,7 +28,7 @@ public class Friend {
     private User user2;
 
     @Column(name = "friendStatus", nullable = false)
-    private FriendStatus friendStatus;
+    private RequestStatus friendStatus;
 
     //id of user initiating friend action
     @Column(name = "userActionId", nullable = false)
