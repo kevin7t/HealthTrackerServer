@@ -40,9 +40,9 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
     @Override
     public List<Schedule> getScheduleList(User user) {
-        String query = ("SELECT s FROM Schedule s where s.user1 = ?0 AND s.scheduleStatus = 'ACCEPTED'");
+        String query = ("SELECT s FROM Schedule s where s.user1 = ?0");
         List<Schedule> scheduleList = entityManager.createQuery(query).setParameter(0, user).getResultList();
-        String query2 = ("SELECT s FROM Schedule s where s.user2 = ?0 AND s.scheduleStatus = 'ACCEPTED'");
+        String query2 = ("SELECT s FROM Schedule s where s.user2 = ?0");
         scheduleList.addAll(entityManager.createQuery(query2).setParameter(0, user).getResultList());
         return scheduleList;
     }
