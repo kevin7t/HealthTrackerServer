@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -49,5 +50,16 @@ public class LikeDAOImpl implements LikeDAO {
     public List<Like> getLikesFromStatus(Status status) {
         String query = "SELECT l FROM Like l WHERE l.status = ?0";
         return entityManager.createQuery(query).setParameter(0, status).getResultList();
+    }
+
+
+    public Like getLike(User user, Status status) {
+        String query = ("SELECT l FROM Like l WHERE l.user = ?0 AND l.status = ?1");
+        Like like = null;
+        try {
+            like = (Like) entityManager.createQuery(query).setParameter(0, user).setParameter(1, status).getSingleResult();
+        }catch ( NoResultException e){
+        }
+        return like;
     }
 }

@@ -13,10 +13,12 @@ import com.kevin.healthtracker.server.dao.StatusDAOImpl;
 import com.kevin.healthtracker.server.dao.UserDAOImpl;
 import com.kevin.healthtracker.server.exception.DuplicateLikeException;
 import com.kevin.healthtracker.server.service.interfaces.UserFeedService;
+import org.apache.juli.logging.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NoResultException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -76,16 +78,18 @@ public class UserFeedServiceImpl implements UserFeedService {
         like.setCreatedAt(currentTime());
         //Get whole object because status also has a user
         Status status = getStatusById(like.getStatus().getId());
-
+        User user = getUserById(like.getUser().getId());
         like.setStatus(status);
-        like.setUser(getUserById(like.getUser().getId()));
+        like.setUser(user);
 
-        try {
-            status.setLikeCount(status.getLikeCount() + 1);
-            likeDao.addLike(like);
-            statusDAO.updateStatus(status);
-        } catch (DuplicateLikeException e) {
-            e.printStackTrace();
+        if (likeDao.getLike(user,status) == null){
+            try {
+                likeDao.addLike(like);
+                status.setLikeCount(status.getLikeCount() + 1);
+                statusDAO.updateStatus(status);
+            } catch (DuplicateLikeException e) {
+                e.printStackTrace();
+            }
         }
         return likeDTO;
     }
