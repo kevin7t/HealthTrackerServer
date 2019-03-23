@@ -29,6 +29,9 @@ public class Reply {
     @ManyToOne
     private User user;
 
+    @Column(name = "user_name", nullable = false)
+    private String username;
+
     @Column(name = "content", nullable = false)
     private String content;
 }

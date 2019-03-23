@@ -111,9 +111,11 @@ public class UserFeedServiceImpl implements UserFeedService {
         Reply reply = modelMapper.map(replyDTO, Reply.class);
         Status status = getStatusById(reply.getStatus().getId());
         status.setReplyCount(status.getReplyCount() + 1);
+        statusDAO.updateStatus(status);
         reply.setCreatedAt(currentTime());
         reply.setStatus(getStatusById(reply.getStatus().getId()));
         reply.setUser(getUserById(reply.getUser().getId()));
+        reply.setUsername(userDAO.getById(replyDTO.getUserId()).getUserName());
         return modelMapper.map(replyDAO.createReply(reply), ReplyDTO.class);
     }
 

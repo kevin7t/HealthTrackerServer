@@ -280,6 +280,7 @@ public class DaoIT {
         Reply newReply = new Reply();
         newReply.setUser(newUser);
         newReply.setStatus(newStatus);
+        newReply.setUsername(newUser.getUserName());
         newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newReply.setContent("This is a reply");
 
@@ -363,6 +364,7 @@ public class DaoIT {
         Reply newReply = new Reply();
         newReply.setUser(newUser);
         newReply.setStatus(newStatus);
+        newReply.setUsername(newUser.getUserName());
         newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newReply.setContent("This is a reply");
         newReply = replyDAO.createReply(newReply);
@@ -391,6 +393,7 @@ public class DaoIT {
         Reply newReply = new Reply();
         newReply.setUser(newUser);
         newReply.setStatus(newStatus);
+        newReply.setUsername(newUser.getUserName());
         newReply.setCreatedAt(new Date(Calendar.getInstance().getTimeInMillis()));
         newReply.setContent("This is a reply");
         newReply = replyDAO.createReply(newReply);

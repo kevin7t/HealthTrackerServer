@@ -11,6 +11,7 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReplyDTO {
     private int id;
+    private String username;
     private Date createdAt;
     private int statusId;
     private int userId;
