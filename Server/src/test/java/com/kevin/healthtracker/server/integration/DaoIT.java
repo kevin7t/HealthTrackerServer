@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,9 @@ public class DaoIT {
 
     @Autowired
     FriendDAOImpl friendDAO;
+
+    @Autowired
+    ScheduleDAOImpl scheduleDAO;
 
     /*
      * User tests
@@ -572,4 +576,156 @@ public class DaoIT {
         assertEquals(requestsFromUser1.get(0).getUserActionId(), newUser.getId());
     }
 
+    /**
+     * Schedule test
+     */
+    @Test
+    public void addSchedule() {
+        Date date= new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(RequestStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+
+        Schedule schedule = new Schedule();
+        schedule.setUser1(newUser);
+        schedule.setUser2(newUser2);
+        schedule.setUserActionId(newUser.getId());
+        schedule.setScheduleStatus(RequestStatus.PENDING);
+        schedule.setContent("Test");
+        schedule.setDateTime(ts);
+
+        Schedule createdSchedule = scheduleDAO.addSchedule(schedule);
+
+        assertEquals(schedule.getContent(),createdSchedule.getContent());
+        assertEquals(schedule.getScheduleStatus(),createdSchedule.getScheduleStatus());
+        assertEquals(schedule.getUserActionId(),createdSchedule.getUserActionId());
+    }
+
+    @Test
+    public void updateSchedule() {
+        Date date= new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(RequestStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+
+        Schedule schedule = new Schedule();
+        schedule.setUser1(newUser);
+        schedule.setUser2(newUser2);
+        schedule.setUserActionId(newUser.getId());
+        schedule.setScheduleStatus(RequestStatus.PENDING);
+        schedule.setContent("Test");
+        schedule.setDateTime(ts);
+
+        Schedule createdSchedule = scheduleDAO.addSchedule(schedule);
+        assertEquals(RequestStatus.PENDING,createdSchedule.getScheduleStatus());
+
+        schedule.setScheduleStatus(RequestStatus.ACCEPTED);
+        Schedule updatedSchedule= scheduleDAO.updateSchedule(schedule);
+        assertEquals(RequestStatus.ACCEPTED,updatedSchedule.getScheduleStatus());
+    }
+    @Test
+    public void getSchedule() {
+        Date date= new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(RequestStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+
+        Schedule schedule = new Schedule();
+        schedule.setUser1(newUser);
+        schedule.setUser2(newUser2);
+        schedule.setUserActionId(newUser.getId());
+        schedule.setScheduleStatus(RequestStatus.PENDING);
+        schedule.setContent("Test");
+        schedule.setDateTime(ts);
+
+        Schedule createdSchedule = scheduleDAO.addSchedule(schedule);
+        Schedule getSchedule = scheduleDAO.getById(createdSchedule.getId());
+
+        assertEquals(createdSchedule.getContent(),getSchedule.getContent());
+    }
+
+    @Test
+    public void getForUserSchedule() {
+        Date date= new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+
+        User newUser = new User();
+        newUser.setUserName("Test");
+        newUser.setPassword("Password");
+        newUser = userDAO.createUser(newUser);
+
+        User newUser2 = new User();
+        newUser2.setUserName("Test2");
+        newUser2.setPassword("Password");
+        newUser2 = userDAO.createUser(newUser2);
+
+        Friend friendRelation = new Friend();
+        friendRelation.setUser1(newUser);
+        friendRelation.setUser2(newUser2);
+
+        friendRelation.setUserActionId(newUser.getId());
+        friendRelation.setFriendStatus(RequestStatus.PENDING);
+        friendRelation = friendDAO.addFriendRelation(friendRelation);
+
+        Schedule schedule = new Schedule();
+        schedule.setUser1(newUser);
+        schedule.setUser2(newUser2);
+        schedule.setUserActionId(newUser.getId());
+        schedule.setScheduleStatus(RequestStatus.PENDING);
+        schedule.setContent("Test");
+        schedule.setDateTime(ts);
+
+        Schedule createdSchedule = scheduleDAO.addSchedule(schedule);
+        List<Schedule> getSchedule = scheduleDAO.getScheduleList(newUser);
+
+        assertEquals(createdSchedule.getContent(),getSchedule.get(0).getContent());
+    }
 }

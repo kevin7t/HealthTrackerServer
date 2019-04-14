@@ -1,8 +1,10 @@
 package com.kevin.healthtracker.server.service;
 
+import com.kevin.healthtracker.datamodels.Like;
 import com.kevin.healthtracker.datamodels.Status;
 import com.kevin.healthtracker.datamodels.StatusType;
 import com.kevin.healthtracker.datamodels.User;
+import com.kevin.healthtracker.datamodels.dto.LikeDTO;
 import com.kevin.healthtracker.datamodels.dto.StatusDTO;
 import com.kevin.healthtracker.server.dao.LikeDAOImpl;
 import com.kevin.healthtracker.server.dao.ReplyDAOImpl;
@@ -64,30 +66,6 @@ public class UserFeedServiceTest {
         List<StatusDTO> actualStatus = userFeedService.getStatusesByUserId(1, 1);
 
         assertEquals(expectedStatus, actualStatus);
-    }
-
-    @Test
-    public void addLikeToStatus() {
-    }
-
-    @Test
-    public void getLikesFromStatus() {
-    }
-
-    @Test
-    public void removeLikeFromStatus() {
-    }
-
-    @Test
-    public void addReplyToStatus() {
-    }
-
-    @Test
-    public void getRepliesFromStatus() {
-    }
-
-    @Test
-    public void deleteReplyById() {
     }
 
     private StatusDTO getStatusDTO() {

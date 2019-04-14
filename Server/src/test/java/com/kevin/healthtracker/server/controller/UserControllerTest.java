@@ -269,4 +269,26 @@ public class UserControllerTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(friend))));
     }
 
+    @Test
+    public void increaseUserScore () throws Exception{
+        com.kevin.healthtracker.datamodels.User user = new com.kevin.healthtracker.datamodels.User();
+        user.setId(1);
+        user.setUserName("TestUser");
+        user.setPassword("Password");
+        user.setScore(0);
+
+        User expectedUser = new User();
+        user.setId(1);
+        user.setUserName("TestUser");
+        user.setScore(10);
+
+        when(userService.increaseUserScore(1,10)).thenReturn(expectedUser);
+
+        mockMvc.perform(put("/healthtracker/users/userscore/1/10")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedUser)));
+    }
+
 }
